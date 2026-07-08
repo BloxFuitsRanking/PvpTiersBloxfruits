@@ -451,7 +451,7 @@ const manualPlayers = [
   { name: 'Jugador_Prueba_17', robloxId: '17', robloxProfile: 'https://www.roblox.com', team2v2: 'Tempest', crewName: 'Storm Chasers', crowns: false, region: 'eu', customAvatar: globalPfp, gunTier: 'HT3', swordTier: 'HT4' },
   { name: 'Jugador_Prueba_18', robloxId: '18', robloxProfile: 'https://www.roblox.com', team2v2: 'Tempest', crewName: 'Storm Chasers', crowns: false, region: 'na', customAvatar: globalPfp, gunTier: 'LT3', swordTier: 'HT4' },
   { name: 'Jugador_Prueba_19', robloxId: '19', robloxProfile: 'https://www.roblox.com', team2v2: 'Gladiators', crewName: 'Roman Dynasty', crowns: false, region: 'sa', customAvatar: globalPfp, gunTier: 'LT3', swordTier: 'LT4' },
-  { name: 'Jugador_Prueba_20', robloxId: '20', robloxProfile: 'https://www.roblox.com', team2v2: 'Gladiators', crewName: 'Roman Dynasty', crowns: false, region: 'eu', customAvatar: globalPfp, gunTier: 'HT4', strokeTier: 'HT4', gunTier: 'HT4', swordTier: 'HT4' },
+  { name: 'Jugador_Prueba_20', robloxId: '20', robloxProfile: 'https://www.roblox.com', team2v2: 'Gladiators', crewName: 'Roman Dynasty', crowns: false, region: 'eu', customAvatar: globalPfp, gunTier: 'HT4', swordTier: 'HT4' },
   { name: 'Jugador_Prueba_21', robloxId: '21', robloxProfile: 'https://www.roblox.com', team2v2: 'Blaze Row', crewName: 'Volcano Core', crowns: false, region: 'na', customAvatar: globalPfp, gunTier: 'HT4', swordTier: 'LT4' },
   { name: 'Jugador_Prueba_22', robloxId: '22', robloxProfile: 'https://www.roblox.com', team2v2: 'Blaze Row', crewName: 'Volcano Core', crowns: false, region: 'sa', customAvatar: globalPfp, gunTier: 'LT4', swordTier: 'LT4' },
   { name: 'Jugador_Prueba_23', robloxId: '23', robloxProfile: 'https://www.roblox.com', team2v2: 'Prism', crewName: 'Spectrum Guild', crowns: false, region: 'eu', customAvatar: globalPfp, gunTier: 'HT4', swordTier: 'HT5' },
@@ -519,7 +519,7 @@ const manualPlayers = [
   { name: 'Jugador_Prueba_85', robloxId: '85', robloxProfile: 'https://www.roblox.com', team2v2: 'Falcons', crewName: 'Alabasta', crowns: false, region: 'sa', customAvatar: globalPfp, gunTier: 'LT5', swordTier: 'LT5' },
   { name: 'Jugador_Prueba_86', robloxId: '86', robloxProfile: 'https://www.roblox.com', team2v2: 'Falcons', crewName: 'Alabasta', crowns: false, region: 'eu', customAvatar: globalPfp, gunTier: 'LT5', swordTier: 'LT5' },
   { name: 'Jugador_Prueba_87', robloxId: '87', robloxProfile: 'https://www.roblox.com', team2v2: 'Budhas', crewName: 'Sengoku Crew', crowns: false, region: 'na', customAvatar: globalPfp, gunTier: 'LT5', swordTier: 'LT5' },
-  { name: 'Jugador_Prueba_88', robloxId: '88', robloxProfile: 'https://www.roblox.com', team2v2: 'Budhas', crewName: 'Sengoku Crew', crowns: false, region: 'sa', customAvatar: globalPfp, gunTier: 'LT5', swordTier: 'LT5' },
+  { name: 'Budhas', robloxId: '88', robloxProfile: 'https://www.roblox.com', team2v2: 'Budhas', crewName: 'Sengoku Crew', crowns: false, region: 'sa', customAvatar: globalPfp, gunTier: 'LT5', swordTier: 'LT5' },
   { name: 'Jugador_Prueba_89', robloxId: '89', robloxProfile: 'https://www.roblox.com', team2v2: 'Gunslingers', crewName: 'Zoro Arc', crowns: false, region: 'eu', customAvatar: globalPfp, gunTier: 'LT5', swordTier: 'LT5' },
   { name: 'Jugador_Prueba_90', robloxId: '90', robloxProfile: 'https://www.roblox.com', team2v2: 'Gunslingers', crewName: 'Zoro Arc', crowns: false, region: 'na', customAvatar: globalPfp, gunTier: 'LT5', swordTier: 'LT5' },
   { name: 'Jugador_Prueba_91', robloxId: '91', robloxProfile: 'https://www.roblox.com', team2v2: 'Swordsmen', crewName: 'Mihawk Dojo', crowns: false, region: 'sa', customAvatar: globalPfp, gunTier: 'LT5', swordTier: 'LT5' },
@@ -568,7 +568,7 @@ playersDatabase.forEach(player => {
   player.title = getTitleByPoints(player.calculatedPoints);
 });
 
-// Ordenar base de datos de mayor a menor puntuación para consistencia competitiva
+// Ordenar base de datos de mayor a menor puntuación para consistencia competitiva global
 playersDatabase.sort((a, b) => b.calculatedPoints - a.calculatedPoints);
 playersDatabase.forEach((player, index) => {
   player.rank = index + 1;
@@ -624,7 +624,18 @@ categoryContainer.style.display = 'grid';
 
 for (let i = 1; i <= 5; i++) document.getElementById(`tier-list-${i}`).innerHTML = '';
 
-playersDatabase.forEach(player => {
+// Clonamos el array original para ordenarlo independientemente según la categoría (Gun o Sword)
+const sortedForCategory = [...playersDatabase].sort((a, b) => {
+  const tierA = category === 'gun' ? a.gunTier : a.swordTier;
+  const tierB = category === 'gun' ? b.gunTier : b.swordTier;
+  
+  const valA = pointsMap[tierA.t] || 0;
+  const valB = pointsMap[tierB.t] || 0;
+  
+  return valB - valA; // Ordena de High Tier 1 hacia abajo
+});
+
+sortedForCategory.forEach(player => {
 let targetTier = category === 'gun' ? player.gunTier : player.swordTier;
 if (targetTier && targetTier.num > 0) {
 const card = document.createElement('div');
