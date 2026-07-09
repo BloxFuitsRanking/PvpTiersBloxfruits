@@ -130,7 +130,7 @@ main { max-width: 1200px; margin: 3rem auto; padding: 0 2rem; }
 .modal-position-box { background: rgba(0,0,0,0.15); border: 1px solid rgba(255,255,255,0.04); border-radius: 12px; padding: 0.75rem 1rem; display: flex; align-items: center; margin-bottom: 1.5rem; }
 .modal-position-box .pos-num { font-size: 1.3rem; font-weight: 800; margin-right: 1rem; }
 .modal-tiers-grid { background: rgba(0,0,0,0.15); border: 1px solid rgba(255,255,255,0.04); border-radius: 12px; padding: 1.2rem 1rem; display: flex; gap: 1.5rem; justify-content: center; margin-bottom: 1.5rem; }
-.modal-tier-item { display: flex; flex-direction: column; align-items: center; gap: 0.3rem; width: 70px; }
+.modal-tier-item { display: flex; flex-direction: column; align-items: center; gap: 0.3rem; width: 85px; }
 .modal-tier-icon { width: 44px; height: 44px; border-radius: 50%; background: rgba(255,255,255,0.03); display: flex; align-items: center; justify-content: center; }
 .modal-tier-icon img { width: 60%; height: 60%; object-fit: contain; }
 .modal-tier-label { font-size: 0.75rem; font-weight: 800; border-radius: 4px; padding: 0.1rem 0.4rem; width: 100%; text-align: center; }
@@ -164,8 +164,50 @@ main { max-width: 1200px; margin: 3rem auto; padding: 0 2rem; }
 
 .player-info { display: flex; align-items: center; gap: 0.8rem; }
 .avatar { width: 38px; height: 38px; border-radius: 8px; object-fit: cover; background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.05); }
-.player-details .name { font-weight: 600; display: flex; align-items: center; gap: 0.4rem; font-size: 0.95rem; }
-.player-sub { font-size: 0.8rem; color: var(--text-secondary); }
+
+/* --- ESTILOS MEJORADOS PARA NOMBRES --- */
+.player-details .name { 
+  font-weight: 800; 
+  display: flex; 
+  align-items: center; 
+  gap: 0.5rem; 
+  font-size: 1rem; 
+  background: linear-gradient(135deg, #ffffff 60%, #aec6cf 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  transition: filter 0.15s; 
+}
+.ranking-table tbody tr:hover .name { 
+  filter: drop-shadow(0 0 4px rgba(96, 165, 250, 0.6));
+}
+.player-sub { font-size: 0.8rem; color: var(--text-secondary); margin-top: 2px; }
+.highlight-points { color: #fbbf24; font-weight: 700; } 
+
+/* --- NUEVOS ESTILOS PARA LOS PUNTOS DE LAS PESTAÑAS GUN / SWORD --- */
+.points-pill-container {
+  display: flex;
+  justify-content: flex-end;
+}
+.points-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: rgba(0, 0, 0, 0.3);
+  padding: 0.4rem 0.8rem;
+  border-radius: 8px;
+  border: 1px solid rgba(251, 191, 36, 0.15);
+}
+.points-pill img {
+  width: 18px;
+  height: 18px;
+  object-fit: contain;
+}
+.points-value-text {
+  color: #fbbf24;
+  font-weight: 700;
+  font-size: 0.85rem;
+  letter-spacing: 0.3px;
+}
 
 .region-badge { display: inline-block; padding: 0.2rem 0.5rem; border-radius: 4px; font-weight: 700; font-size: 0.7rem; letter-spacing: 0.3px; }
 .region-badge.na { background: rgba(248, 113, 113, 0.1); color: #f87171; }
@@ -176,21 +218,6 @@ main { max-width: 1200px; margin: 3rem auto; padding: 0 2rem; }
 .tier-wrapper { display: inline-flex; align-items: center; gap: 0.4rem; background: rgba(0, 0, 0, 0.2); padding: 0.3rem 0.6rem; border-radius: 6px; border: 1px solid rgba(255,255,255,0.02); }
 .item-image { width: 20px; height: 20px; object-fit: contain; opacity: 0.9; }
 .tier-badge { font-size: 0.75rem; font-weight: 800; padding: 0.1rem 0.3rem; border-radius: 4px; }
-
-/* --- CATEGORÍAS VISTA COLUMNAS --- */
-.tiers-grid-container { display: none; grid-template-columns: repeat(5, 1fr); gap: 1rem; align-items: start; }
-.tier-column { background-color: var(--bg-card); border-radius: 16px; overflow: hidden; border: 1px solid rgba(255, 255, 255, 0.04); min-height: 300px; backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
-.tier-header { padding: 1.1rem; text-align: center; font-weight: 700; font-size: 1rem; display: flex; flex-direction: column; align-items: center; gap: 0.2rem; background: rgba(10, 14, 22, 0.3); border-bottom: 1px solid rgba(255, 255, 255, 0.04); letter-spacing: 0.3px; }
-
-.th-1 { color: var(--color-tier1); text-shadow: 0 0 12px rgba(252, 211, 77, 0.15); }
-.th-2 { color: var(--color-tier2); text-shadow: 0 0 12px rgba(226, 232, 240, 0.15); }
-.th-3 { color: var(--color-tier3); text-shadow: 0 0 12px rgba(253, 186, 116, 0.15); }
-.th-4 { color: var(--color-tier4); text-shadow: 0 0 12px rgba(147, 197, 253, 0.15); }
-.th-5 { color: var(--color-tier5); text-shadow: 0 0 12px rgba(134, 239, 172, 0.15); }
-
-.tier-players-list { padding: 0.5rem; display: flex; flex-direction: column; gap: 0.4rem; }
-.tier-player-card { display: flex; align-items: center; gap: 0.6rem; background: rgba(255, 255, 255, 0.01); padding: 0.55rem 0.8rem; border-radius: 8px; cursor: pointer; border-left: 3px solid transparent; transition: all 0.15s; }
-.tier-player-card:hover { background: rgba(255, 255, 255, 0.04); transform: translateX(2px); }
 
 .t-ht1 { color: var(--color-ht1); background: rgba(248, 113, 113, 0.12); }
 .t-lt1 { color: var(--color-lt1); background: rgba(249, 115, 22, 0.12); }
@@ -203,15 +230,7 @@ main { max-width: 1200px; margin: 3rem auto; padding: 0 2rem; }
 .t-ht5 { color: var(--color-ht5); background: rgba(192, 132, 252, 0.12); }
 .t-lt5 { color: var(--color-lt5); background: rgba(244, 114, 182, 0.12); }
 
-.border-ht { border-left-color: rgba(255,255,255,0.15); }
-.border-lt { border-left-color: rgba(255,255,255,0.06); }
-
-.tier-card-avatar { width: 28px; height: 28px; border-radius: 50%; object-fit: cover; background: rgba(255,255,255,0.02); }
-.tier-card-name { font-size: 0.88rem; font-weight: 500; display: flex; align-items: center; justify-content: space-between; width: 100%; padding-right: 0.5rem; }
-.tier-card-arrow { color: var(--text-secondary); font-size: 0.75rem; opacity: 0.4; margin-left: auto; }
-
-@media (max-width: 950px) { .tiers-grid-container { grid-template-columns: repeat(2, 1fr); } }
-@media (max-width: 600px) { .tiers-grid-container { grid-template-columns: 1fr; } .nav-links, .search-box { display: none; } }
+@media (max-width: 600px) { .nav-links, .search-box { display: none; } }
 </style>
 </head>
 <body>
@@ -263,7 +282,7 @@ main { max-width: 1200px; margin: 3rem auto; padding: 0 2rem; }
 <span id="m-pos-points" style="margin-left:auto; color:var(--text-secondary); font-size:0.85rem;">(200 points)</span>
 </div>
 
-<div class="modal-section-title" style="text-align:left; font-size:0.75rem; color:var(--text-secondary); font-weight:700; margin-bottom:0.4rem; letter-spacing:0.5px;">TIERS / INFO</div>
+<div class="modal-section-title" style="text-align:left; font-size:0.75rem; color:var(--text-secondary); font-weight:700; margin-bottom:0.4rem; letter-spacing:0.5px;">STATS / INFO</div>
 <div class="modal-tiers-grid" id="m-tiers-grid"></div>
 
 <div class="modal-socials-container" id="m-socials-box">
@@ -280,7 +299,7 @@ main { max-width: 1200px; margin: 3rem auto; padding: 0 2rem; }
 <button class="close-modal-btn" id="close-info-modal"><i class="fa-solid fa-xmark"></i></button>
 <div class="info-modal-tabs">
 <button class="info-tab-btn active" id="tab-titles-btn">Titles</button>
-<button class="info-tab-btn" id="tab-points-btn">Points</button>
+<button class="info-tab-btn" id="tab-points-btn">Points System</button>
 </div>
 
 <div class="info-content-scroll" id="info-titles-pane">
@@ -353,34 +372,11 @@ main { max-width: 1200px; margin: 3rem auto; padding: 0 2rem; }
 <th class="col-rank">Pos</th>
 <th id="table-header-name">Username</th>
 <th style="text-align:center;">Region</th>
-<th style="text-align:right;" id="table-header-tier">Assigned Tier</th>
+<th style="text-align:right;" id="table-header-tier">Assigned Tier / Info</th>
 </tr>
 </thead>
 <tbody id="ranking-tbody"></tbody>
 </table>
-</div>
-
-<div class="tiers-grid-container" id="category-view-container">
-<div class="tier-column">
-<div class="tier-header th-1"><i class="fa-solid fa-trophy"></i> Tier 1</div>
-<div class="tier-players-list" id="tier-list-1"></div>
-</div>
-<div class="tier-column">
-<div class="tier-header th-2"><i class="fa-solid fa-medal"></i> Tier 2</div>
-<div class="tier-players-list" id="tier-list-2"></div>
-</div>
-<div class="tier-column">
-<div class="tier-header th-3"><i class="fa-solid fa-award"></i> Tier 3</div>
-<div class="tier-players-list" id="tier-list-3"></div>
-</div>
-<div class="tier-column">
-<div class="tier-header th-4"><i class="fa-solid fa-shield-halved"></i> Tier 4</div>
-<div class="tier-players-list" id="tier-list-4"></div>
-</div>
-<div class="tier-column">
-<div class="tier-header th-5"><i class="fa-solid fa-user"></i> Tier 5</div>
-<div class="tier-players-list" id="tier-list-5"></div>
-</div>
 </div>
 </main>
 
@@ -388,8 +384,6 @@ main { max-width: 1200px; margin: 3rem auto; padding: 0 2rem; }
 const imgAcidum = 'https://i.postimg.cc/jjdybD3q/Acidum-Rifle.webp';
 const imgDarkBlade = 'https://i.postimg.cc/VNGnLz2W/is-dark-blade-worth-getting-v0-1028u2i9u52f1.webp';
 const globalPfp = 'https://i.postimg.cc/W3mvzFKH/imagen-2026-07-07-142514907.png';
-const imgCrewDefault = 'https://i.postimg.cc/FzbqHFXQ/imagen-2026-07-07-102230785.png';
-const img2v2Default = 'https://i.postimg.cc/NF1h27TD/imagen-2026-07-07-102127181.png';
 
 // --- CONTROL DE AUDIO ---
 const rainAudio = document.getElementById('rain-audio');
@@ -408,7 +402,6 @@ toggleAudioBtn.addEventListener('click', () => {
   }
 });
 
-// --- SISTEMA DINÁMICO DE PUNTOS AUTOMÁTICOS PARA JUGADORES ---
 const pointsMap = {
   'HT1': 100, 'LT1': 90,
   'HT2': 80,  'LT2': 70,
@@ -427,216 +420,208 @@ function getTitleByPoints(points) {
 }
 
 /* ==========================================================================
-   ✏️ BASE DE DATOS LOCAL editable DESDE TU GITHUB
+   ✏️ BASE DE DATOS LOCAL
    ========================================================================== */
 
-// 1. LISTA GENERAL DE JUGADORES INDIVIDUALES (OVERALL / GUN / SWORD)
-// ¡Ahora puedes editar la propiedad "points" directamente igual que en el database2v2!
 const manualPlayers = [
-  { name: 'RANDOM', points: 200, robloxProfile: 'https://www.roblox.com/es/users/5448312155/profile', crowns: true, region: 'na', customAvatar: globalPfp, gunTier: 'HT1', swordTier: 'HT1' },
-  { name: 'Jugador_Prueba_2', points: 200, robloxProfile: 'https://www.roblox.com', crowns: true, region: 'eu', customAvatar: globalPfp, gunTier: 'HT1', swordTier: 'LT1' },
-  { name: 'Jugador_Prueba_3', points: 180, robloxProfile: 'https://www.roblox.com', crowns: false, region: 'na', customAvatar: globalPfp, gunTier: 'HT1', swordTier: 'LT1' },
-  { name: 'Jugador_Prueba_4', points: 170, robloxProfile: 'https://www.roblox.com', crowns: false, region: 'sa', customAvatar: globalPfp, gunTier: 'LT1', swordTier: 'LT1' },
-  { name: 'Jugador_Prueba_5', points: 160, robloxProfile: 'https://www.roblox.com', crowns: false, region: 'eu', customAvatar: globalPfp, gunTier: 'HT1', swordTier: 'HT2' },
-  { name: 'Jugador_Prueba_6', points: 150, robloxProfile: 'https://www.roblox.com', crowns: false, region: 'na', customAvatar: globalPfp, gunTier: 'LT1', swordTier: 'HT2' },
-  { name: 'Jugador_Prueba_7', points: 140, robloxProfile: 'https://www.roblox.com', crowns: false, region: 'sa', customAvatar: globalPfp, gunTier: 'LT1', swordTier: 'LT2' },
-  { name: 'Jugador_Prueba_8', points: 130, robloxProfile: 'https://www.roblox.com', crowns: false, region: 'eu', customAvatar: globalPfp, gunTier: 'HT2', swordTier: 'HT2' },
-  { name: 'Jugador_Prueba_9', points: 120, robloxProfile: 'https://www.roblox.com', crowns: false, region: 'na', customAvatar: globalPfp, gunTier: 'HT2', swordTier: 'LT2' },
-  { name: 'Jugador_Prueba_10', points: 110, robloxProfile: 'https://www.roblox.com', crowns: false, region: 'sa', customAvatar: globalPfp, gunTier: 'LT2', swordTier: 'LT2' },
-  { name: 'Jugador_Prueba_11', points: 100, robloxProfile: 'https://www.roblox.com', crowns: false, region: 'sa', customAvatar: globalPfp, gunTier: 'LT2', swordTier: 'LT1' }
+  { name: 'RANDOM', robloxProfile: 'https://www.roblox.com/es/users/5448312155/profile', crowns: true, region: 'na', customAvatar: globalPfp, gunPoints: 100, swordPoints: 100, gunTier: 'HT1', swordTier: 'HT1' },
+  { name: 'Jugador_Prueba_2', robloxProfile: 'https://www.roblox.com', crowns: true, region: 'eu', customAvatar: globalPfp, gunPoints: 100, swordPoints: 90, gunTier: 'HT1', swordTier: 'LT1' },
+  { name: 'Jugador_Prueba_3', robloxProfile: 'https://www.roblox.com', crowns: false, region: 'na', customAvatar: globalPfp, gunPoints: 100, swordPoints: 50, gunTier: 'HT1', swordTier: 'LT3' },
+  { name: 'Jugador_Prueba_4', robloxProfile: 'https://www.roblox.com', crowns: false, region: 'sa', customAvatar: globalPfp, gunPoints: 90, swordPoints: 90, gunTier: 'LT1', swordTier: 'LT1' },
+  { name: 'Jugador_Prueba_5', robloxProfile: 'https://www.roblox.com', crowns: false, region: 'eu', customAvatar: globalPfp, gunPoints: 100, swordPoints: 80, gunTier: 'HT1', swordTier: 'HT2' },
+  { name: 'Jugador_Prueba_6', robloxProfile: 'https://www.roblox.com', crowns: false, region: 'na', customAvatar: globalPfp, gunPoints: 90, swordPoints: 80, gunTier: 'LT1', swordTier: 'HT2' },
+  { name: 'Jugador_Prueba_7', robloxProfile: 'https://www.roblox.com', crowns: false, region: 'sa', customAvatar: globalPfp, gunPoints: 90, swordPoints: 70, gunTier: 'LT1', swordTier: 'LT2' },
+  { name: 'Jugador_Prueba_8', robloxProfile: 'https://www.roblox.com', crowns: false, region: 'eu', customAvatar: globalPfp, gunPoints: 80, strokePoints: 80, gunTier: 'HT2', swordTier: 'HT2' },
+  { name: 'Jugador_Prueba_9', robloxProfile: 'https://www.roblox.com', crowns: false, region: 'na', customAvatar: globalPfp, gunPoints: 80, swordPoints: 70, gunTier: 'HT2', swordTier: 'LT2' },
+  { name: 'Jugador_Prueba_10', robloxProfile: 'https://www.roblox.com', crowns: false, region: 'sa', customAvatar: globalPfp, gunPoints: 70, swordPoints: 70, gunTier: 'LT2', swordTier: 'LT2' },
+  { name: 'Jugador_Prueba_11', robloxProfile: 'https://www.roblox.com', crowns: false, region: 'sa', customAvatar: globalPfp, gunPoints: 70, swordPoints: 90, gunTier: 'LT2', swordTier: 'LT1' }
 ];
 
-// 2. LISTA EXCLUSIVA DE 2V2 (TEAMS)
 const database2v2 = [
-  { name: 'Team Nexus', points: 350, tier: 'HT1', region: 'na', avatar: 'https://i.postimg.cc/W3mvzFKH/imagen-2026-07-07-142514907.png' , crowns: true, description: 'Dominante en torneos regionales' },
-  { name: 'Alpha Squad', points: 290, tier: 'LT1', region: 'eu', avatar: 'https://i.postimg.cc/W3mvzFKH/imagen-2026-07-07-142514907.png' , crowns: false, description: 'Estrategas tácticos de 2v2' },
-  { name: 'Delta Duos', points: 210, tier: 'HT2', region: 'sa', avatar: 'https://i.postimg.cc/W3mvzFKH/imagen-2026-07-07-142514907.png' , crowns: false, description: 'Poder puro en sincronización' },
-  { name: 'Infinity Crew', points: 180, tier: 'LT2', region: 'na', avatar: 'https://i.postimg.cc/W3mvzFKH/imagen-2026-07-07-142514907.png' , crowns: false, description: 'Defensas impenetrables' },
-  { name: 'Solids Team', points: 120, tier: 'HT3', region: 'eu', avatar: 'https://i.postimg.cc/W3mvzFKH/imagen-2026-07-07-142514907.png' , crowns: false, description: 'Rápidos contraataques' }
+  { name: 'Team Nexus', points: 350, tier: 'HT1', region: 'na', avatar: 'https://i.postimg.cc/0y694Vw2/totox.png', crowns: true, description: 'Dominante en torneos regionales' },
+  { name: 'Alpha Squad', points: 290, tier: 'LT1', region: 'eu', avatar: globalPfp, crowns: false, description: 'Estrategas tácticos de 2v2' },
+  { name: 'Delta Duos', points: 210, tier: 'HT2', region: 'sa', avatar: globalPfp, crowns: false, description: 'Poder puro en sincronización' },
+  { name: 'Infinity Crew', points: 180, tier: 'LT2', region: 'na', avatar: globalPfp, crowns: false, description: 'Defensas impenetrables' },
+  { name: 'Solids Team', points: 120, tier: 'HT3', region: 'eu', avatar: globalPfp, crowns: false, description: 'Rápidos contraataques' }
 ];
 
-// 3. LISTA EXCLUSIVA DE CREWS
 const databaseCrew = [
-  { name: 'Vanguard Legends', points: 1200, tier: 'HT1', region: 'na', avatar: 'https://i.postimg.cc/W3mvzFKH/imagen-2026-07-07-142514907.png' , crowns: true, description: 'La tripulación más temida del servidor' },
-  { name: 'Shadow Clan', points: 950, tier: 'LT1', region: 'sa', avatar: 'https://i.postimg.cc/W3mvzFKH/imagen-2026-07-07-142514907.png' , crowns: false, description: 'Asesinos silenciosos en alta mar' },
-  { name: 'Crimson Order', points: 720, tier: 'HT2', region: 'eu', avatar: 'https://i.postimg.cc/W3mvzFKH/imagen-2026-07-07-142514907.png' , crowns: false, description: 'Guerreros de sangre fría' },
-  { name: 'Mythic Union', points: 510, tier: 'LT2', region: 'na', avatar: 'https://i.postimg.cc/W3mvzFKH/imagen-2026-07-07-142514907.png' , crowns: false, description: 'Hermandad competitiva enfocada a PvP' },
-  { name: 'Iron Syndicate', points: 340, tier: 'HT3', region: 'eu', avatar: 'https://i.postimg.cc/W3mvzFKH/imagen-2026-07-07-142514907.png' , crowns: false, description: 'Defensores de fortalezas' }
+  { name: 'Vanguard Legends', points: 1200, tier: 'HT1', region: 'na', avatar: globalPfp, crowns: true, description: 'La tripulación más temida del servidor' },
+  { name: 'Shadow Clan', points: 950, tier: 'LT1', region: 'sa', avatar: globalPfp, crowns: false, description: 'Asesinos silenciosos en alta mar' },
+  { name: 'Crimson Order', points: 720, tier: 'HT2', region: 'eu', avatar: globalPfp, crowns: false, description: 'Guerreros de sangre fría' },
+  { name: 'Mythic Union', points: 510, tier: 'LT2', region: 'na', avatar: globalPfp, crowns: false, description: 'Hermandad competitiva enfocada a PvP' },
+  { name: 'Iron Syndicate', points: 340, tier: 'HT3', region: 'eu', avatar: globalPfp, crowns: false, description: 'Defensores de fortalezas' }
 ];
 
 /* ========================================================================== */
 
-// Procesamiento automático de Jugadores basado en los PUNTOS MANUALES escritos arriba
-const playersDatabase = [];
-manualPlayers.forEach((p) => {
-  let gNum = parseInt(p.gunTier.replace(/\D/g, '')) || 5;
-  let sNum = parseInt(p.swordTier.replace(/\D/g, '')) || 5;
-  let gType = p.gunTier.includes('HT') ? 'border-ht' : 'border-lt';
-  let sType = p.swordTier.includes('HT') ? 'border-ht' : 'border-lt';
+let finalOverallList = [];
+let finalGunList = [];
+let finalSwordList = [];
 
-  playersDatabase.push({
-    type: 'player',
-    rank: 0,
-    name: p.name,
-    robloxProfile: p.robloxProfile,
-    crowns: p.crowns,
-    region: p.region,
-    customAvatar: p.customAvatar,
-    gunTier: { t: p.gunTier, c: 't-' + p.gunTier.toLowerCase(), num: gNum, type: gType },
-    swordTier: { t: p.swordTier, c: 't-' + p.swordTier.toLowerCase(), num: sNum, type: sType },
-    calculatedPoints: p.points, // Usa directamente los puntos que asignaste manualmente
-    title: getTitleByPoints(p.points),
-    items: [
-      { img: imgAcidum, badge: p.gunTier, class: 't-' + p.gunTier.toLowerCase() },
-      { img: imgDarkBlade, badge: p.swordTier, class: 't-' + p.swordTier.toLowerCase() }
-    ]
+function processDatabases() {
+  // Procesar OVERALL
+  finalOverallList = manualPlayers.map(p => {
+    const totalCalculated = p.gunPoints + p.swordPoints;
+    return {
+      ...p,
+      activePoints: totalCalculated,
+      subText: `${getTitleByPoints(totalCalculated)} • <span class="highlight-points">${totalCalculated}</span> points`,
+      mode: 'overall',
+      breakdown: [
+        { img: imgAcidum, text: p.gunTier, isTier: true, hasIcon: true, class: 't-' + p.gunTier.toLowerCase() },
+        { img: imgDarkBlade, text: p.swordTier, isTier: true, hasIcon: true, class: 't-' + p.swordTier.toLowerCase() }
+      ]
+    };
+  }).sort((a, b) => b.activePoints - a.activePoints);
+  finalOverallList.forEach((p, idx) => p.computedRank = idx + 1);
+
+  // Procesar GUN
+  finalGunList = manualPlayers.map(p => {
+    return {
+      ...p,
+      activePoints: p.gunPoints,
+      subText: `<span class="highlight-points">${p.gunPoints}</span> Gun Points`,
+      mode: 'gun',
+      breakdown: [{ img: imgAcidum, text: `${p.gunPoints} Pts`, isTier: false, hasIcon: true }]
+    };
+  }).sort((a, b) => b.activePoints - a.activePoints);
+  finalGunList.forEach((p, idx) => p.computedRank = idx + 1);
+
+  // Procesar SWORD
+  finalSwordList = manualPlayers.map(p => {
+    return {
+      ...p,
+      activePoints: p.swordPoints,
+      subText: `<span class="highlight-points">${p.swordPoints}</span> Sword Points`,
+      mode: 'sword',
+      breakdown: [{ img: imgDarkBlade, text: `${p.swordPoints} Pts`, isTier: false, hasIcon: true }]
+    };
+  }).sort((a, b) => b.activePoints - a.activePoints);
+  finalSwordList.forEach((p, idx) => p.computedRank = idx + 1);
+
+  // Procesar 2v2
+  database2v2.sort((a, b) => b.points - a.points);
+  database2v2.forEach((t, idx) => {
+    t.computedRank = idx + 1;
+    t.subText = `<span class="highlight-points">${t.points}</span> Competitive Points`;
+    t.breakdown = [{ text: t.tier, isTier: true, hasIcon: false, class: 't-' + t.tier.toLowerCase() }];
   });
-});
 
-// Ordenar jugadores por puntos manuales
-playersDatabase.sort((a, b) => b.calculatedPoints - a.calculatedPoints);
-playersDatabase.forEach((player, index) => player.rank = index + 1);
-
-// Ordenar bases de datos manuales de 2v2 y Crew por puntos asignados directamente
-database2v2.sort((a, b) => b.points - a.points);
-database2v2.forEach((team, index) => team.rank = index + 1);
-
-databaseCrew.sort((a, b) => b.points - a.points);
-databaseCrew.forEach((crew, index) => crew.rank = index + 1);
-
+  // Procesar Crew
+  databaseCrew.sort((a, b) => b.points - a.points);
+  databaseCrew.forEach((c, idx) => {
+    c.computedRank = idx + 1;
+    c.subText = `<span class="highlight-points">${c.points}</span> Crew Points`;
+    c.breakdown = [{ text: c.tier, isTier: true, hasIcon: false, class: 't-' + c.tier.toLowerCase() }];
+  });
+}
 
 function renderRankings(category) {
-  const overallContainer = document.getElementById('overall-view-container');
-  const categoryContainer = document.getElementById('category-view-container');
   const headerName = document.getElementById('table-header-name');
   const headerTier = document.getElementById('table-header-tier');
   const tbody = document.getElementById('ranking-tbody');
   
   tbody.innerHTML = '';
+  let activeList = [];
 
   if (category === 'overall') {
-    categoryContainer.style.display = 'none';
-    overallContainer.style.display = 'block';
     headerName.innerText = "Username";
     headerTier.innerText = "Assigned Tiers";
-
-    playersDatabase.forEach(player => {
-      let rankClass = player.rank === 1 ? 'rank-1' : player.rank === 2 ? 'rank-2' : player.rank === 3 ? 'rank-3' : 'rank-other';
-      let itemsHTML = player.items.map(item => `
-        <div class="tier-wrapper">
-          <img src="${item.img}" class="item-image">
-          <span class="tier-badge ${item.class}">${item.badge}</span>
-        </div>
-      `).join('');
-      let crownHTML = player.crowns ? `<span class="crown-icon" style="color:var(--gold); font-size:0.8rem;"><i class="fa-solid fa-crown"></i></span>` : '';
-
-      const row = document.createElement('tr');
-      row.addEventListener('click', () => openPlayerModal(player));
-      row.innerHTML = `
-        <td class="col-rank"><span class="rank-num ${rankClass}">${player.rank}.</span></td>
-        <td>
-          <div class="player-info">
-            <img src="${player.customAvatar}" class="avatar">
-            <div class="player-details">
-              <div class="name">${player.name} ${crownHTML}</div>
-              <div class="player-sub">${player.title} • ${player.calculatedPoints} points</div>
-            </div>
-          </div>
-        </td>
-        <td style="text-align:center;"><span class="region-badge ${player.region}">${player.region.toUpperCase()}</span></td>
-        <td><div class="tier-badges-container">${itemsHTML}</div></td>
-      `;
-      tbody.appendChild(row);
-    });
-
-  } else if (category === '2v2' || category === 'crew') {
-    categoryContainer.style.display = 'none';
-    overallContainer.style.display = 'block';
-    headerName.innerText = category === '2v2' ? "Team (Duos)" : "Crew Name";
+    activeList = finalOverallList;
+  } else if (category === 'gun') {
+    headerName.innerText = "Username (Gun Top)";
+    headerTier.innerText = "Gun Points";
+    activeList = finalGunList;
+  } else if (category === 'sword') {
+    headerName.innerText = "Username (Sword Top)";
+    headerTier.innerText = "Sword Points";
+    activeList = finalSwordList;
+  } else if (category === '2v2') {
+    headerName.innerText = "Team (Duos)";
     headerTier.innerText = "Competitive Tier";
+    activeList = database2v2;
+  } else if (category === 'crew') {
+    headerName.innerText = "Crew Name";
+    headerTier.innerText = "Competitive Tier";
+    activeList = databaseCrew;
+  }
 
-    const activeDatabase = category === '2v2' ? database2v2 : databaseCrew;
+  activeList.forEach(item => {
+    let rankClass = item.computedRank === 1 ? 'rank-1' : item.computedRank === 2 ? 'rank-2' : item.computedRank === 3 ? 'rank-3' : 'rank-other';
+    let crownHTML = item.crowns ? `<span class="crown-icon" style="color:var(--gold); font-size:0.8rem;"><i class="fa-solid fa-crown"></i></span>` : '';
+    let avatarUrl = item.customAvatar || item.avatar;
 
-    activeDatabase.forEach(item => {
-      let rankClass = item.rank === 1 ? 'rank-1' : item.rank === 2 ? 'rank-2' : item.rank === 3 ? 'rank-3' : 'rank-other';
-      let crownHTML = item.crowns ? `<span class="crown-icon" style="color:var(--gold); font-size:0.8rem;"><i class="fa-solid fa-crown"></i></span>` : '';
-      let tierColorClass = 't-' + item.tier.toLowerCase();
-
-      const row = document.createElement('tr');
-      row.addEventListener('click', () => openGenericModal(item, category));
-      row.innerHTML = `
-        <td class="col-rank"><span class="rank-num ${rankClass}">${item.rank}.</span></td>
-        <td>
-          <div class="player-info">
-            <img src="${item.avatar}" class="avatar">
-            <div class="player-details">
-              <div class="name">${item.name} ${crownHTML}</div>
-              <div class="player-sub">${item.points} Competitive Points</div>
-            </div>
+    let breakdownHTML = '';
+    if (category === 'gun' || category === 'sword') {
+      const iconSrc = category === 'gun' ? imgAcidum : imgDarkBlade;
+      breakdownHTML = `
+        <div class="points-pill-container">
+          <div class="points-pill">
+            <img src="${iconSrc}">
+            <span class="points-value-text">${item.activePoints} Pts</span>
           </div>
-        </td>
-        <td style="text-align:center;"><span class="region-badge ${item.region}">${item.region.toUpperCase()}</span></td>
-        <td>
-          <div class="tier-badges-container">
-            <div class="tier-wrapper">
-              <span class="tier-badge ${tierColorClass}" style="padding: 0.2rem 0.6rem; font-size:0.8rem;">${item.tier}</span>
-            </div>
-          </div>
-        </td>
+        </div>
       `;
-      tbody.appendChild(row);
-    });
+    } else {
+      breakdownHTML = `
+        <div class="tier-badges-container">
+          ${item.breakdown.map(b => `
+            <div class="tier-wrapper">
+              ${b.hasIcon ? `<img src="${b.img}" class="item-image">` : ''}
+              <span class="tier-badge ${b.isTier ? b.class : ''}" style="${!b.isTier ? 'color:#fff;' : ''}">${b.text}</span>
+            </div>
+          `).join('')}
+        </div>
+      `;
+    }
 
-  } else {
-    // Vistas por Columnas de Tiers independientes (Gun / Sword)
-    overallContainer.style.display = 'none';
-    categoryContainer.style.display = 'grid';
-
-    for (let i = 1; i <= 5; i++) document.getElementById(`tier-list-${i}`).innerHTML = '';
-
-    const sortedForCategory = [...playersDatabase].sort((a, b) => {
-      const tierA = category === 'gun' ? a.gunTier : a.swordTier;
-      const tierB = category === 'gun' ? b.gunTier : b.swordTier;
-      return (pointsMap[tierB.t] || 0) - (pointsMap[tierA.t] || 0);
-    });
-
-    sortedForCategory.forEach(player => {
-      let targetTier = category === 'gun' ? player.gunTier : player.swordTier;
-      if (targetTier && targetTier.num > 0) {
-        const card = document.createElement('div');
-        card.className = `tier-player-card ${targetTier.type}`;
-        card.addEventListener('click', () => openPlayerModal(player));
-        card.innerHTML = `
-          <img src="${player.customAvatar}" class="tier-card-avatar">
-          <div class="tier-card-name">
-            ${player.name}
-            <span class="${targetTier.c}" style="font-size:0.75rem; padding:2px 6px; border-radius:4px; font-weight:700;">${targetTier.t}</span>
-          </div>
-          <i class="fa-solid fa-chevron-right tier-card-arrow"></i>
-        `;
-        document.getElementById(`tier-list-${targetTier.num}`).appendChild(card);
+    const row = document.createElement('tr');
+    row.addEventListener('click', () => {
+      if (category === '2v2' || category === 'crew') {
+        openGenericModal(item, category);
+      } else {
+        openPlayerModal(item);
       }
     });
-  }
+
+    row.innerHTML = `
+      <td class="col-rank"><span class="rank-num ${rankClass}">${item.computedRank}.</span></td>
+      <td>
+        <div class="player-info">
+          <img src="${avatarUrl}" class="avatar">
+          <div class="player-details">
+            <div class="name">${item.name} ${crownHTML}</div>
+            <div class="player-sub">${item.subText}</div>
+          </div>
+        </div>
+      </td>
+      <td style="text-align:center;"><span class="region-badge ${item.region}">${item.region.toUpperCase()}</span></td>
+      <td>${breakdownHTML}</td>
+    `;
+    tbody.appendChild(row);
+  });
 }
 
-// Abrir modal estructurado para Jugadores (Individual)
 function openPlayerModal(player) {
+  const total = player.gunPoints + player.swordPoints;
   document.getElementById('m-avatar').src = player.customAvatar;
   document.getElementById('m-name').innerText = player.name;
-  document.getElementById('m-title').innerHTML = `<i class="fa-solid fa-bolt"></i> ${player.title}`;
+  document.getElementById('m-title').innerHTML = `<i class="fa-solid fa-bolt"></i> ${getTitleByPoints(total)}`;
   document.getElementById('m-region').innerText = `Region: ${player.region.toUpperCase()}`;
-  document.getElementById('m-pos-num').innerText = `${player.rank}.`;
-  document.getElementById('m-pos-points').innerText = `(${player.calculatedPoints} points)`;
+  
+  const overallRank = finalOverallList.find(p => p.name === player.name).computedRank;
+  document.getElementById('m-pos-num').innerText = `${overallRank}.`;
+  document.getElementById('m-pos-points').innerText = `(${total} points)`;
 
   document.getElementById('m-tiers-grid').innerHTML = `
     <div class="modal-tier-item">
       <div class="modal-tier-icon"><img src="${imgAcidum}"></div>
-      <div class="modal-tier-label ${player.gunTier.c}">${player.gunTier.t}</div>
+      <div class="modal-tier-label t-${player.gunTier.toLowerCase()}">${player.gunTier} (${player.gunPoints} Pts)</div>
     </div>
     <div class="modal-tier-item">
       <div class="modal-tier-icon"><img src="${imgDarkBlade}"></div>
-      <div class="modal-tier-label ${player.swordTier.c}">${player.swordTier.t}</div>
+      <div class="modal-tier-label t-${player.swordTier.toLowerCase()}">${player.swordTier} (${player.swordPoints} Pts)</div>
     </div>
   `;
 
@@ -654,13 +639,12 @@ function openPlayerModal(player) {
   document.getElementById('profile-modal-overlay').style.display = 'flex';
 }
 
-// Abrir modal para Crews y Equipos 2v2 (Muestra su descripción y rango específico)
 function openGenericModal(item, mode) {
   document.getElementById('m-avatar').src = item.avatar;
   document.getElementById('m-name').innerText = item.name;
   document.getElementById('m-title').innerHTML = `<i class="fa-solid fa-users"></i> Tier Oficial: ${item.tier}`;
   document.getElementById('m-region').innerText = `Region: ${item.region.toUpperCase()}`;
-  document.getElementById('m-pos-num').innerText = `${item.rank}.`;
+  document.getElementById('m-pos-num').innerText = `${item.computedRank}.`;
   document.getElementById('m-pos-points').innerText = `(${item.points} points)`;
 
   document.getElementById('m-tiers-grid').innerHTML = `
@@ -674,7 +658,6 @@ function openGenericModal(item, mode) {
   document.getElementById('profile-modal-overlay').style.display = 'flex';
 }
 
-// Eventos de Navegación de Categorías
 document.querySelectorAll('.tab-btn').forEach(btn => {
   btn.addEventListener('click', function() {
     document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
@@ -701,7 +684,6 @@ window.addEventListener('click', (e) => {
   if (e.target.classList.contains('modal-overlay')) e.target.style.display = 'none';
 });
 
-// Buscador Inteligente Dinámico (Funciona para jugadores, crews y teams)
 document.getElementById('player-search').addEventListener('input', function() {
   const query = this.value.toLowerCase();
   document.querySelectorAll('#ranking-tbody tr').forEach(row => {
@@ -710,7 +692,7 @@ document.getElementById('player-search').addEventListener('input', function() {
   });
 });
 
-// Renderizar tabla inicial
+processDatabases();
 renderRankings('overall');
 </script>
 </body>
