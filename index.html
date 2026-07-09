@@ -424,21 +424,21 @@ function getTitleByPoints(points) {
    ========================================================================== */
 
 const manualPlayers = [
-  { name: 'RANDOM', robloxProfile: 'https://www.roblox.com/es/users/5448312155/profile', crowns: true, region: 'na', customAvatar: globalPfp, gunPoints: 100, swordPoints: 100, gunTier: 'HT1', swordTier: 'HT1' },
+  { name: 'RANDOM', robloxProfile: 'https://www.roblox.com/es/users/5448312155/profile', crowns: true, region: 'na', customAvatar: globalPfp, gunPoints: 60, swordPoints: 90, gunTier: 'HT3', swordTier: 'LT1' },
   { name: 'Jugador_Prueba_2', robloxProfile: 'https://www.roblox.com', crowns: true, region: 'eu', customAvatar: globalPfp, gunPoints: 100, swordPoints: 90, gunTier: 'HT1', swordTier: 'LT1' },
   { name: 'Jugador_Prueba_3', robloxProfile: 'https://www.roblox.com', crowns: false, region: 'na', customAvatar: globalPfp, gunPoints: 100, swordPoints: 50, gunTier: 'HT1', swordTier: 'LT3' },
   { name: 'Jugador_Prueba_4', robloxProfile: 'https://www.roblox.com', crowns: false, region: 'sa', customAvatar: globalPfp, gunPoints: 90, swordPoints: 90, gunTier: 'LT1', swordTier: 'LT1' },
   { name: 'Jugador_Prueba_5', robloxProfile: 'https://www.roblox.com', crowns: false, region: 'eu', customAvatar: globalPfp, gunPoints: 100, swordPoints: 80, gunTier: 'HT1', swordTier: 'HT2' },
   { name: 'Jugador_Prueba_6', robloxProfile: 'https://www.roblox.com', crowns: false, region: 'na', customAvatar: globalPfp, gunPoints: 90, swordPoints: 80, gunTier: 'LT1', swordTier: 'HT2' },
   { name: 'Jugador_Prueba_7', robloxProfile: 'https://www.roblox.com', crowns: false, region: 'sa', customAvatar: globalPfp, gunPoints: 90, swordPoints: 70, gunTier: 'LT1', swordTier: 'LT2' },
-  { name: 'Jugador_Prueba_8', robloxProfile: 'https://www.roblox.com', crowns: false, region: 'eu', customAvatar: globalPfp, gunPoints: 80, strokePoints: 80, gunTier: 'HT2', swordTier: 'HT2' },
+  { name: 'Jugador_Prueba_8', robloxProfile: 'https://www.roblox.com', crowns: false, region: 'eu', customAvatar: globalPfp, gunPoints: 80, swordPoints: 80, gunTier: 'HT2', swordTier: 'HT2' },
   { name: 'Jugador_Prueba_9', robloxProfile: 'https://www.roblox.com', crowns: false, region: 'na', customAvatar: globalPfp, gunPoints: 80, swordPoints: 70, gunTier: 'HT2', swordTier: 'LT2' },
   { name: 'Jugador_Prueba_10', robloxProfile: 'https://www.roblox.com', crowns: false, region: 'sa', customAvatar: globalPfp, gunPoints: 70, swordPoints: 70, gunTier: 'LT2', swordTier: 'LT2' },
   { name: 'Jugador_Prueba_11', robloxProfile: 'https://www.roblox.com', crowns: false, region: 'sa', customAvatar: globalPfp, gunPoints: 70, swordPoints: 90, gunTier: 'LT2', swordTier: 'LT1' }
 ];
 
 const database2v2 = [
-  { name: 'Team Nexus', points: 350, tier: 'HT1', region: 'na', avatar: 'https://i.postimg.cc/0y694Vw2/totox.png', crowns: true, description: 'Dominante en torneos regionales' },
+  { name: 'Team Nexus', points: 350, tier: 'HT1', region: 'na', avatar: globalPfp, crowns: true, description: 'Dominante en torneos regionales' },
   { name: 'Alpha Squad', points: 290, tier: 'LT1', region: 'eu', avatar: globalPfp, crowns: false, description: 'Estrategas tácticos de 2v2' },
   { name: 'Delta Duos', points: 210, tier: 'HT2', region: 'sa', avatar: globalPfp, crowns: false, description: 'Poder puro en sincronización' },
   { name: 'Infinity Crew', points: 180, tier: 'LT2', region: 'na', avatar: globalPfp, crowns: false, description: 'Defensas impenetrables' },
@@ -483,7 +483,7 @@ function processDatabases() {
       activePoints: p.gunPoints,
       subText: `<span class="highlight-points">${p.gunPoints}</span> Gun Points`,
       mode: 'gun',
-      breakdown: [{ img: imgAcidum, text: `${p.gunPoints} Pts`, isTier: false, hasIcon: true }]
+      breakdown: [{ img: imgAcidum, text: p.gunTier, isTier: true, hasIcon: true, class: 't-' + p.gunTier.toLowerCase() }]
     };
   }).sort((a, b) => b.activePoints - a.activePoints);
   finalGunList.forEach((p, idx) => p.computedRank = idx + 1);
@@ -495,7 +495,7 @@ function processDatabases() {
       activePoints: p.swordPoints,
       subText: `<span class="highlight-points">${p.swordPoints}</span> Sword Points`,
       mode: 'sword',
-      breakdown: [{ img: imgDarkBlade, text: `${p.swordPoints} Pts`, isTier: false, hasIcon: true }]
+      breakdown: [{ img: imgDarkBlade, text: p.swordTier, isTier: true, hasIcon: true, class: 't-' + p.swordTier.toLowerCase() }]
     };
   }).sort((a, b) => b.activePoints - a.activePoints);
   finalSwordList.forEach((p, idx) => p.computedRank = idx + 1);
@@ -531,11 +531,11 @@ function renderRankings(category) {
     activeList = finalOverallList;
   } else if (category === 'gun') {
     headerName.innerText = "Username (Gun Top)";
-    headerTier.innerText = "Gun Points";
+    headerTier.innerText = "Gun Tier";
     activeList = finalGunList;
   } else if (category === 'sword') {
     headerName.innerText = "Username (Sword Top)";
-    headerTier.innerText = "Sword Points";
+    headerTier.innerText = "Sword Tier";
     activeList = finalSwordList;
   } else if (category === '2v2') {
     headerName.innerText = "Team (Duos)";
@@ -552,29 +552,16 @@ function renderRankings(category) {
     let crownHTML = item.crowns ? `<span class="crown-icon" style="color:var(--gold); font-size:0.8rem;"><i class="fa-solid fa-crown"></i></span>` : '';
     let avatarUrl = item.customAvatar || item.avatar;
 
-    let breakdownHTML = '';
-    if (category === 'gun' || category === 'sword') {
-      const iconSrc = category === 'gun' ? imgAcidum : imgDarkBlade;
-      breakdownHTML = `
-        <div class="points-pill-container">
-          <div class="points-pill">
-            <img src="${iconSrc}">
-            <span class="points-value-text">${item.activePoints} Pts</span>
+    let breakdownHTML = `
+      <div class="tier-badges-container">
+        ${item.breakdown.map(b => `
+          <div class="tier-wrapper">
+            ${b.hasIcon ? `<img src="${b.img}" class="item-image">` : ''}
+            <span class="tier-badge ${b.isTier ? b.class : ''}" style="${!b.isTier ? 'color:#fff;' : ''}">${b.text}</span>
           </div>
-        </div>
-      `;
-    } else {
-      breakdownHTML = `
-        <div class="tier-badges-container">
-          ${item.breakdown.map(b => `
-            <div class="tier-wrapper">
-              ${b.hasIcon ? `<img src="${b.img}" class="item-image">` : ''}
-              <span class="tier-badge ${b.isTier ? b.class : ''}" style="${!b.isTier ? 'color:#fff;' : ''}">${b.text}</span>
-            </div>
-          `).join('')}
-        </div>
-      `;
-    }
+        `).join('')}
+      </div>
+    `;
 
     const row = document.createElement('tr');
     row.addEventListener('click', () => {
