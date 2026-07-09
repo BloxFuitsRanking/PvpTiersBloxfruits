@@ -241,7 +241,7 @@ main { max-width: 1200px; margin: 3rem auto; padding: 0 2rem; }
 <div class="nav-actions">
 <div class="search-box">
 <i class="fa-solid fa-magnifying-glass"></i>
-<input type="text" id="player-search" placeholder="Search player...">
+<input type="text" id="player-search" placeholder="Search player/team...">
 </div>
 </div>
 </div>
@@ -259,11 +259,11 @@ main { max-width: 1200px; margin: 3rem auto; padding: 0 2rem; }
 <div class="modal-section-title" style="text-align:left; font-size:0.75rem; color:var(--text-secondary); font-weight:700; margin-bottom:0.4rem; letter-spacing:0.5px;">POSITION</div>
 <div class="modal-position-box">
 <span class="pos-num" id="m-pos-num" style="color:#fff">1.</span>
-<span style="font-weight:700; font-size:0.95rem;"><i class="fa-solid fa-trophy" style="color:var(--gold)"></i> OVERALL</span>
+<span style="font-weight:700; font-size:0.95rem;"><i class="fa-solid fa-trophy" style="color:var(--gold)"></i> LEADERBOARD</span>
 <span id="m-pos-points" style="margin-left:auto; color:var(--text-secondary); font-size:0.85rem;">(200 points)</span>
 </div>
 
-<div class="modal-section-title" style="text-align:left; font-size:0.75rem; color:var(--text-secondary); font-weight:700; margin-bottom:0.4rem; letter-spacing:0.5px;">TIERS</div>
+<div class="modal-section-title" style="text-align:left; font-size:0.75rem; color:var(--text-secondary); font-weight:700; margin-bottom:0.4rem; letter-spacing:0.5px;">TIERS / INFO</div>
 <div class="modal-tiers-grid" id="m-tiers-grid"></div>
 
 <div class="modal-socials-container" id="m-socials-box">
@@ -353,7 +353,7 @@ main { max-width: 1200px; margin: 3rem auto; padding: 0 2rem; }
 <th class="col-rank">Pos</th>
 <th id="table-header-name">Username</th>
 <th style="text-align:center;">Region</th>
-<th style="text-align:right;">Assigned Tier</th>
+<th style="text-align:right;" id="table-header-tier">Assigned Tier</th>
 </tr>
 </thead>
 <tbody id="ranking-tbody"></tbody>
@@ -388,6 +388,8 @@ main { max-width: 1200px; margin: 3rem auto; padding: 0 2rem; }
 const imgAcidum = 'https://i.postimg.cc/jjdybD3q/Acidum-Rifle.webp';
 const imgDarkBlade = 'https://i.postimg.cc/VNGnLz2W/is-dark-blade-worth-getting-v0-1028u2i9u52f1.webp';
 const globalPfp = 'https://i.postimg.cc/W3mvzFKH/imagen-2026-07-07-142514907.png';
+const imgCrewDefault = 'https://i.postimg.cc/FzbqHFXQ/imagen-2026-07-07-102230785.png';
+const img2v2Default = 'https://i.postimg.cc/NF1h27TD/imagen-2026-07-07-102127181.png';
 
 // --- CONTROL DE AUDIO ---
 const rainAudio = document.getElementById('rain-audio');
@@ -406,7 +408,7 @@ toggleAudioBtn.addEventListener('click', () => {
   }
 });
 
-// --- SISTEMA DINÁMICO DE PUNTOS ---
+// --- SISTEMA DINÁMICO DE PUNTOS AUTOMÁTICOS PARA JUGADORES ---
 const pointsMap = {
   'HT1': 100, 'LT1': 90,
   'HT2': 80,  'LT2': 70,
@@ -429,114 +431,47 @@ function getTitleByPoints(points) {
 }
 
 /* ==========================================================================
-   ✏️ SECCIÓN EDITABLE DE 100 JUGADORES COMPLETAMENTE DETALLADOS
+   ✏️ BASE DE DATOS LOCAL editable DESDE TU GITHUB
    ========================================================================== */
+
+// 1. LISTA GENERAL DE JUGADORES INDIVIDUALES (OVERALL / GUN / SWORD)
+// El sistema auto-calcula sus puntos sumando "gunTier" + "swordTier" de forma matemática exacta
 const manualPlayers = [
-  { name: 'cris', robloxId: '1', robloxProfile: 'https://www.roblox.com/es/users/5448312155/profile', team2v2: 'Team Nexus', crewName: 'Vanguard Legends', crowns: true, region: 'na', customAvatar: globalPfp, gunTier: 'HT2', swordTier: 'HT1' },
-  { name: 'Jugador_Prueba_2', robloxId: '2', robloxProfile: 'https://www.roblox.com', team2v2: 'Team Nexus', crewName: 'Vanguard Legends', crowns: true, region: 'eu', customAvatar: globalPfp, gunTier: 'HT1', swordTier: 'LT1' },
-  { name: 'Jugador_Prueba_3', robloxId: '3', robloxProfile: 'https://www.roblox.com', team2v2: 'Alpha Squad', crewName: 'Shadow Clan', crowns: false, region: 'na', customAvatar: globalPfp, gunTier: 'HT1', swordTier: 'LT1' },
-  { name: 'Jugador_Prueba_4', robloxId: '4', robloxProfile: 'https://www.roblox.com', team2v2: 'Alpha Squad', crewName: 'Shadow Clan', crowns: false, region: 'sa', customAvatar: globalPfp, gunTier: 'LT1', swordTier: 'LT1' },
-  { name: 'Jugador_Prueba_5', robloxId: '5', robloxProfile: 'https://www.roblox.com', team2v2: 'Delta Duos', crewName: 'Crimson Order', crowns: false, region: 'eu', customAvatar: globalPfp, gunTier: 'HT1', swordTier: 'HT2' },
-  { name: 'Jugador_Prueba_6', robloxId: '6', robloxProfile: 'https://www.roblox.com', team2v2: 'Delta Duos', crewName: 'Crimson Order', crowns: false, region: 'na', customAvatar: globalPfp, gunTier: 'LT1', swordTier: 'HT2' },
-  { name: 'Jugador_Prueba_7', robloxId: '7', robloxProfile: 'https://www.roblox.com', team2v2: 'Infinity', crewName: 'Mythic Union', crowns: false, region: 'sa', customAvatar: globalPfp, gunTier: 'LT1', swordTier: 'LT2' },
-  { name: 'Jugador_Prueba_8', robloxId: '8', robloxProfile: 'https://www.roblox.com', team2v2: 'Infinity', crewName: 'Mythic Union', crowns: false, region: 'eu', customAvatar: globalPfp, gunTier: 'HT2', swordTier: 'HT2' },
-  { name: 'Jugador_Prueba_9', robloxId: '9', robloxProfile: 'https://www.roblox.com', team2v2: 'Solids', crewName: 'Iron Syndicate', crowns: false, region: 'na', customAvatar: globalPfp, gunTier: 'HT2', swordTier: 'LT2' },
-  { name: 'Jugador_Prueba_10', robloxId: '10', robloxProfile: 'https://www.roblox.com', team2v2: 'Solids', crewName: 'Iron Syndicate', crowns: false, region: 'sa', customAvatar: globalPfp, gunTier: 'LT2', swordTier: 'LT2' },
-  { name: 'Jugador_Prueba_11', robloxId: '11', robloxProfile: 'https://www.roblox.com', team2v2: 'Dynamic Duos', crewName: 'Eclipse Knights', crowns: false, region: 'eu', customAvatar: globalPfp, gunTier: 'HT2', swordTier: 'HT3' },
-  { name: 'Jugador_Prueba_12', robloxId: '12', robloxProfile: 'https://www.roblox.com', team2v2: 'Dynamic Duos', crewName: 'Eclipse Knights', crowns: false, region: 'na', customAvatar: globalPfp, gunTier: 'LT2', swordTier: 'HT3' },
-  { name: 'Jugador_Prueba_13', robloxId: '13', robloxProfile: 'https://www.roblox.com', team2v2: 'Titans', crewName: 'Phoenix Empire', crowns: false, region: 'sa', customAvatar: globalPfp, gunTier: 'LT2', swordTier: 'LT3' },
-  { name: 'Jugador_Prueba_14', robloxId: '14', robloxProfile: 'https://www.roblox.com', team2v2: 'Titans', crewName: 'Phoenix Empire', crowns: false, region: 'eu', customAvatar: globalPfp, gunTier: 'HT3', swordTier: 'HT3' },
-  { name: 'Jugador_Prueba_15', robloxId: '15', robloxProfile: 'https://www.roblox.com', team2v2: 'Vortex', crewName: 'Cyber Warriors', crowns: false, region: 'na', customAvatar: globalPfp, gunTier: 'HT3', swordTier: 'LT3' },
-  { name: 'Jugador_Prueba_16', robloxId: '16', robloxProfile: 'https://www.roblox.com', team2v2: 'Vortex', crewName: 'Cyber Warriors', crowns: false, region: 'sa', customAvatar: globalPfp, gunTier: 'LT3', swordTier: 'LT3' },
-  { name: 'Jugador_Prueba_17', robloxId: '17', robloxProfile: 'https://www.roblox.com', team2v2: 'Tempest', crewName: 'Storm Chasers', crowns: false, region: 'eu', customAvatar: globalPfp, gunTier: 'HT3', swordTier: 'HT4' },
-  { name: 'Jugador_Prueba_18', robloxId: '18', robloxProfile: 'https://www.roblox.com', team2v2: 'Tempest', crewName: 'Storm Chasers', crowns: false, region: 'na', customAvatar: globalPfp, gunTier: 'LT3', swordTier: 'HT4' },
-  { name: 'Jugador_Prueba_19', robloxId: '19', robloxProfile: 'https://www.roblox.com', team2v2: 'Gladiators', crewName: 'Roman Dynasty', crowns: false, region: 'sa', customAvatar: globalPfp, gunTier: 'LT3', swordTier: 'LT4' },
-  { name: 'Jugador_Prueba_20', robloxId: '20', robloxProfile: 'https://www.roblox.com', team2v2: 'Gladiators', crewName: 'Roman Dynasty', crowns: false, region: 'eu', customAvatar: globalPfp, gunTier: 'HT4', swordTier: 'HT4' },
-  { name: 'Jugador_Prueba_21', robloxId: '21', robloxProfile: 'https://www.roblox.com', team2v2: 'Blaze Row', crewName: 'Volcano Core', crowns: false, region: 'na', customAvatar: globalPfp, gunTier: 'HT4', swordTier: 'LT4' },
-  { name: 'Jugador_Prueba_22', robloxId: '22', robloxProfile: 'https://www.roblox.com', team2v2: 'Blaze Row', crewName: 'Volcano Core', crowns: false, region: 'sa', customAvatar: globalPfp, gunTier: 'LT4', swordTier: 'LT4' },
-  { name: 'Jugador_Prueba_23', robloxId: '23', robloxProfile: 'https://www.roblox.com', team2v2: 'Prism', crewName: 'Spectrum Guild', crowns: false, region: 'eu', customAvatar: globalPfp, gunTier: 'HT4', swordTier: 'HT5' },
-  { name: 'Jugador_Prueba_24', robloxId: '24', robloxProfile: 'https://www.roblox.com', team2v2: 'Prism', crewName: 'Spectrum Guild', crowns: false, region: 'na', customAvatar: globalPfp, gunTier: 'LT4', swordTier: 'HT5' },
-  { name: 'Jugador_Prueba_25', robloxId: '25', robloxProfile: 'https://www.roblox.com', team2v2: 'Overlords', crewName: 'Dark Realm', crowns: false, region: 'sa', customAvatar: globalPfp, gunTier: 'LT4', swordTier: 'LT5' },
-  { name: 'Jugador_Prueba_26', robloxId: '26', robloxProfile: 'https://www.roblox.com', team2v2: 'Overlords', crewName: 'Dark Realm', crowns: false, region: 'eu', customAvatar: globalPfp, gunTier: 'HT5', swordTier: 'HT5' },
-  { name: 'Jugador_Prueba_27', robloxId: '27', robloxProfile: 'https://www.roblox.com', team2v2: 'Phantoms', crewName: 'Ghost Fleet', crowns: false, region: 'na', customAvatar: globalPfp, gunTier: 'HT5', swordTier: 'LT5' },
-  { name: 'Jugador_Prueba_28', robloxId: '28', robloxProfile: 'https://www.roblox.com', team2v2: 'Phantoms', crewName: 'Ghost Fleet', crowns: false, region: 'sa', customAvatar: globalPfp, gunTier: 'LT5', swordTier: 'LT5' },
-  { name: 'Jugador_Prueba_29', robloxId: '29', robloxProfile: 'https://www.roblox.com', team2v2: 'Starlight', crewName: 'Astral Path', crowns: false, region: 'eu', customAvatar: globalPfp, gunTier: 'LT5', swordTier: 'LT5' },
-  { name: 'Jugador_Prueba_30', robloxId: '30', robloxProfile: 'https://www.roblox.com', team2v2: 'Starlight', crewName: 'Astral Path', crowns: false, region: 'na', customAvatar: globalPfp, gunTier: 'LT5', swordTier: 'LT5' },
-  { name: 'Jugador_Prueba_31', robloxId: '31', robloxProfile: 'https://www.roblox.com', team2v2: 'Apex Legends', crewName: 'Zenith', crowns: false, region: 'sa', customAvatar: globalPfp, gunTier: 'HT1', swordTier: 'HT2' },
-  { name: 'Jugador_Prueba_32', robloxId: '32', robloxProfile: 'https://www.roblox.com', team2v2: 'Apex Legends', crewName: 'Zenith', crowns: false, region: 'eu', customAvatar: globalPfp, gunTier: 'HT2', swordTier: 'HT1' },
-  { name: 'Jugador_Prueba_33', robloxId: '33', robloxProfile: 'https://www.roblox.com', team2v2: 'Nemesis', crewName: 'Overhaul', crowns: false, region: 'na', customAvatar: globalPfp, gunTier: 'LT1', swordTier: 'HT2' },
-  { name: 'Jugador_Prueba_34', robloxId: '34', robloxProfile: 'https://www.roblox.com', team2v2: 'Nemesis', crewName: 'Overhaul', crowns: false, region: 'sa', customAvatar: globalPfp, gunTier: 'HT2', swordTier: 'LT1' },
-  { name: 'Jugador_Prueba_35', robloxId: '35', robloxProfile: 'https://www.roblox.com', team2v2: 'Raptors', crewName: 'Jurassic Unit', crowns: false, region: 'eu', customAvatar: globalPfp, gunTier: 'LT1', swordTier: 'LT2' },
-  { name: 'Jugador_Prueba_36', robloxId: '36', robloxProfile: 'https://www.roblox.com', team2v2: 'Raptors', crewName: 'Jurassic Unit', crowns: false, region: 'na', customAvatar: globalPfp, gunTier: 'LT2', swordTier: 'LT1' },
-  { name: 'Jugador_Prueba_37', robloxId: '37', robloxProfile: 'https://www.roblox.com', team2v2: 'Gryphons', crewName: 'Sky Guard', crowns: false, region: 'sa', customAvatar: globalPfp, gunTier: 'HT2', swordTier: 'LT2' },
-  { name: 'Jugador_Prueba_38', robloxId: '38', robloxProfile: 'https://www.roblox.com', team2v2: 'Gryphons', crewName: 'Sky Guard', crowns: false, region: 'eu', customAvatar: globalPfp, gunTier: 'LT2', swordTier: 'HT2' },
-  { name: 'Jugador_Prueba_39', robloxId: '39', robloxProfile: 'https://www.roblox.com', team2v2: 'Shadows', crewName: 'Nightfall', crowns: false, region: 'na', customAvatar: globalPfp, gunTier: 'HT2', swordTier: 'HT3' },
-  { name: 'Jugador_Prueba_40', robloxId: '40', robloxProfile: 'https://www.roblox.com', team2v2: 'Shadows', crewName: 'Nightfall', crowns: false, region: 'sa', customAvatar: globalPfp, gunTier: 'HT3', swordTier: 'HT2' },
-  { name: 'Jugador_Prueba_41', robloxId: '41', robloxProfile: 'https://www.roblox.com', team2v2: 'Wizards', crewName: 'Arcane High', crowns: false, region: 'eu', customAvatar: globalPfp, gunTier: 'LT2', swordTier: 'HT3' },
-  { name: 'Jugador_Prueba_42', robloxId: '42', robloxProfile: 'https://www.roblox.com', team2v2: 'Wizards', crewName: 'Arcane High', crowns: false, region: 'na', customAvatar: globalPfp, gunTier: 'HT3', swordTier: 'LT2' },
-  { name: 'Jugador_Prueba_43', robloxId: '43', robloxProfile: 'https://www.roblox.com', team2v2: 'Ninjas', crewName: 'Hidden Leaf', crowns: false, region: 'sa', customAvatar: globalPfp, gunTier: 'LT2', swordTier: 'LT3' },
-  { name: 'Jugador_Prueba_44', robloxId: '44', robloxProfile: 'https://www.roblox.com', team2v2: 'Ninjas', crewName: 'Hidden Leaf', crowns: false, region: 'eu', customAvatar: globalPfp, gunTier: 'LT3', swordTier: 'LT2' },
-  { name: 'Jugador_Prueba_45', robloxId: '45', robloxProfile: 'https://www.roblox.com', team2v2: 'Samurais', crewName: 'Shogun Law', crowns: false, region: 'na', customAvatar: globalPfp, gunTier: 'HT3', swordTier: 'LT3' },
-  { name: 'Jugador_Prueba_46', robloxId: '46', robloxProfile: 'https://www.roblox.com', team2v2: 'Samurais', crewName: 'Shogun Law', crowns: false, region: 'sa', customAvatar: globalPfp, gunTier: 'LT3', swordTier: 'HT3' },
-  { name: 'Jugador_Prueba_47', robloxId: '47', robloxProfile: 'https://www.roblox.com', team2v2: 'Vikings', crewName: 'Valhalla', crowns: false, region: 'eu', customAvatar: globalPfp, gunTier: 'HT3', swordTier: 'HT4' },
-  { name: 'Jugador_Prueba_48', robloxId: '48', robloxProfile: 'https://www.roblox.com', team2v2: 'Vikings', crewName: 'Valhalla', crowns: false, region: 'na', customAvatar: globalPfp, gunTier: 'HT4', swordTier: 'HT3' },
-  { name: 'Jugador_Prueba_49', robloxId: '49', robloxProfile: 'https://www.roblox.com', team2v2: 'Knights', crewName: 'Camelot', crowns: false, region: 'sa', customAvatar: globalPfp, gunTier: 'LT3', swordTier: 'HT4' },
-  { name: 'Jugador_Prueba_50', robloxId: '50', robloxProfile: 'https://www.roblox.com', team2v2: 'Knights', crewName: 'Camelot', crowns: false, region: 'eu', customAvatar: globalPfp, gunTier: 'HT4', swordTier: 'LT3' },
-  { name: 'Jugador_Prueba_51', robloxId: '51', robloxProfile: 'https://www.roblox.com', team2v2: 'Spartans', crewName: 'Peloponnese', crowns: false, region: 'na', customAvatar: globalPfp, gunTier: 'LT3', swordTier: 'LT4' },
-  { name: 'Jugador_Prueba_52', robloxId: '52', robloxProfile: 'https://www.roblox.com', team2v2: 'Spartans', crewName: 'Peloponnese', crowns: false, region: 'sa', customAvatar: globalPfp, gunTier: 'LT4', swordTier: 'LT3' },
-  { name: 'Jugador_Prueba_53', robloxId: '53', robloxProfile: 'https://www.roblox.com', team2v2: 'Outlaws', crewName: 'Wild West', crowns: false, region: 'eu', customAvatar: globalPfp, gunTier: 'HT4', swordTier: 'LT4' },
-  { name: 'Jugador_Prueba_54', robloxId: '54', robloxProfile: 'https://www.roblox.com', team2v2: 'Outlaws', crewName: 'Wild West', crowns: false, region: 'na', customAvatar: globalPfp, gunTier: 'LT4', swordTier: 'HT4' },
-  { name: 'Jugador_Prueba_55', robloxId: '55', robloxProfile: 'https://www.roblox.com', team2v2: 'Rebels', crewName: 'Resistance', crowns: false, region: 'sa', customAvatar: globalPfp, gunTier: 'LT4', swordTier: 'LT4' },
-  { name: 'Jugador_Prueba_56', robloxId: '56', robloxProfile: 'https://www.roblox.com', team2v2: 'Rebels', crewName: 'Resistance', crowns: false, region: 'eu', customAvatar: globalPfp, gunTier: 'LT4', swordTier: 'LT4' },
-  { name: 'Jugador_Prueba_57', robloxId: '57', robloxProfile: 'https://www.roblox.com', team2v2: 'Hunters', crewName: 'Predators', crowns: false, region: 'na', customAvatar: globalPfp, gunTier: 'HT4', swordTier: 'HT5' },
-  { name: 'Jugador_Prueba_58', robloxId: '58', robloxProfile: 'https://www.roblox.com', team2v2: 'Hunters', crewName: 'Predators', crowns: false, region: 'sa', customAvatar: globalPfp, gunTier: 'HT5', swordTier: 'HT4' },
-  { name: 'Jugador_Prueba_59', robloxId: '59', robloxProfile: 'https://www.roblox.com', team2v2: 'Assassins', crewName: 'Creed Core', crowns: false, region: 'eu', customAvatar: globalPfp, gunTier: 'LT4', swordTier: 'HT5' },
-  { name: 'Jugador_Prueba_60', robloxId: '60', robloxProfile: 'https://www.roblox.com', team2v2: 'Assassins', crewName: 'Creed Core', crowns: false, region: 'na', customAvatar: globalPfp, gunTier: 'HT5', swordTier: 'LT4' },
-  { name: 'Jugador_Prueba_61', robloxId: '61', robloxProfile: 'https://www.roblox.com', team2v2: 'Pirates', crewName: 'Grand Line', crowns: false, region: 'sa', customAvatar: globalPfp, gunTier: 'LT4', swordTier: 'LT5' },
-  { name: 'Jugador_Prueba_62', robloxId: '62', robloxProfile: 'https://www.roblox.com', team2v2: 'Pirates', crewName: 'Grand Line', crowns: false, region: 'eu', customAvatar: globalPfp, gunTier: 'LT5', swordTier: 'LT4' },
-  { name: 'Jugador_Prueba_63', robloxId: '63', robloxProfile: 'https://www.roblox.com', team2v2: 'Marines', crewName: 'New World', crowns: false, region: 'na', customAvatar: globalPfp, gunTier: 'HT5', swordTier: 'LT5' },
-  { name: 'Jugador_Prueba_64', robloxId: '64', robloxProfile: 'https://www.roblox.com', team2v2: 'Marines', crewName: 'New World', crowns: false, region: 'sa', customAvatar: globalPfp, gunTier: 'LT5', swordTier: 'HT5' },
-  { name: 'Jugador_Prueba_65', robloxId: '65', robloxProfile: 'https://www.roblox.com', team2v2: 'Cyborgs', crewName: 'Lab Tech', crowns: false, region: 'eu', customAvatar: globalPfp, gunTier: 'LT5', swordTier: 'LT5' },
-  { name: 'Jugador_Prueba_66', robloxId: '66', robloxProfile: 'https://www.roblox.com', team2v2: 'Cyborgs', crewName: 'Lab Tech', crowns: false, region: 'na', customAvatar: globalPfp, gunTier: 'LT5', swordTier: 'LT5' },
-  { name: 'Jugador_Prueba_67', robloxId: '67', robloxProfile: 'https://www.roblox.com', team2v2: 'Ghouls', crewName: 'Underworld', crowns: false, region: 'sa', customAvatar: globalPfp, gunTier: 'LT5', swordTier: 'LT5' },
-  { name: 'Jugador_Prueba_68', robloxId: '68', robloxProfile: 'https://www.roblox.com', team2v2: 'Ghouls', crewName: 'Underworld', crowns: false, region: 'eu', customAvatar: globalPfp, gunTier: 'LT5', swordTier: 'LT5' },
-  { name: 'Jugador_Prueba_69', robloxId: '69', robloxProfile: 'https://www.roblox.com', team2v2: 'Minks', crewName: 'Zou Tribe', crowns: false, region: 'na', customAvatar: globalPfp, gunTier: 'LT5', swordTier: 'LT5' },
-  { name: 'Jugador_Prueba_70', robloxId: '70', robloxProfile: 'https://www.roblox.com', team2v2: 'Minks', crewName: 'Zou Tribe', crowns: false, region: 'sa', customAvatar: globalPfp, gunTier: 'LT5', swordTier: 'LT5' },
-  { name: 'Jugador_Prueba_71', robloxId: '71', robloxProfile: 'https://www.roblox.com', team2v2: 'Fishmen', crewName: 'Sea Core', crowns: false, region: 'eu', customAvatar: globalPfp, gunTier: 'LT5', swordTier: 'LT5' },
-  { name: 'Jugador_Prueba_72', robloxId: '72', robloxProfile: 'https://www.roblox.com', team2v2: 'Fishmen', crewName: 'Sea Core', crowns: false, region: 'na', customAvatar: globalPfp, gunTier: 'LT5', swordTier: 'LT5' },
-  { name: 'Jugador_Prueba_73', robloxId: '73', robloxProfile: 'https://www.roblox.com', team2v2: 'Skyward', crewName: 'Skypiea', crowns: false, region: 'sa', customAvatar: globalPfp, gunTier: 'LT5', swordTier: 'LT5' },
-  { name: 'Jugador_Prueba_74', robloxId: '74', robloxProfile: 'https://www.roblox.com', team2v2: 'Skyward', crewName: 'Skypiea', crowns: false, region: 'eu', customAvatar: globalPfp, gunTier: 'LT5', swordTier: 'LT5' },
-  { name: 'Jugador_Prueba_75', robloxId: '75', robloxProfile: 'https://www.roblox.com', team2v2: 'Lunarians', crewName: 'Red Line', crowns: false, region: 'na', customAvatar: globalPfp, gunTier: 'LT5', swordTier: 'LT5' },
-  { name: 'Jugador_Prueba_76', robloxId: '76', robloxProfile: 'https://www.roblox.com', team2v2: 'Lunarians', crewName: 'Red Line', crowns: false, region: 'sa', customAvatar: globalPfp, gunTier: 'LT5', swordTier: 'LT5' },
-  { name: 'Jugador_Prueba_77', robloxId: '77', robloxProfile: 'https://www.roblox.com', team2v2: 'Giants', crewName: 'Elbaf', crowns: false, region: 'eu', customAvatar: globalPfp, gunTier: 'LT5', swordTier: 'LT5' },
-  { name: 'Jugador_Prueba_78', robloxId: '78', robloxProfile: 'https://www.roblox.com', team2v2: 'Giants', crewName: 'Elbaf', crowns: false, region: 'na', customAvatar: globalPfp, gunTier: 'LT5', swordTier: 'LT5' },
-  { name: 'Jugador_Prueba_79', robloxId: '79', robloxProfile: 'https://www.roblox.com', team2v2: 'Dragons', crewName: 'Wano', crowns: false, region: 'sa', customAvatar: globalPfp, gunTier: 'LT5', swordTier: 'LT5' },
-  { name: 'Jugador_Prueba_80', robloxId: '80', robloxProfile: 'https://www.roblox.com', team2v2: 'Dragons', crewName: 'Wano', crowns: false, region: 'eu', customAvatar: globalPfp, gunTier: 'LT5', swordTier: 'LT5' },
-  { name: 'Jugador_Prueba_81', robloxId: '81', robloxProfile: 'https://www.roblox.com', team2v2: 'Phoenix', crewName: 'Marco Squad', crowns: false, region: 'na', customAvatar: globalPfp, gunTier: 'LT5', swordTier: 'LT5' },
-  { name: 'Jugador_Prueba_82', robloxId: '82', robloxProfile: 'https://www.roblox.com', team2v2: 'Phoenix', crewName: 'Marco Squad', crowns: false, region: 'sa', customAvatar: globalPfp, gunTier: 'LT5', swordTier: 'LT5' },
-  { name: 'Jugador_Prueba_83', robloxId: '83', robloxProfile: 'https://www.roblox.com', team2v2: 'Leopards', crewName: 'CP9', crowns: false, region: 'eu', customAvatar: globalPfp, gunTier: 'LT5', swordTier: 'LT5' },
-  { name: 'Jugador_Prueba_84', robloxId: '84', robloxProfile: 'https://www.roblox.com', team2v2: 'Leopards', crewName: 'CP9', crowns: false, region: 'na', customAvatar: globalPfp, gunTier: 'LT5', swordTier: 'LT5' },
-  { name: 'Jugador_Prueba_85', robloxId: '85', robloxProfile: 'https://www.roblox.com', team2v2: 'Falcons', crewName: 'Alabasta', crowns: false, region: 'sa', customAvatar: globalPfp, gunTier: 'LT5', swordTier: 'LT5' },
-  { name: 'Jugador_Prueba_86', robloxId: '86', robloxProfile: 'https://www.roblox.com', team2v2: 'Falcons', crewName: 'Alabasta', crowns: false, region: 'eu', customAvatar: globalPfp, gunTier: 'LT5', swordTier: 'LT5' },
-  { name: 'Jugador_Prueba_87', robloxId: '87', robloxProfile: 'https://www.roblox.com', team2v2: 'Budhas', crewName: 'Sengoku Crew', crowns: false, region: 'na', customAvatar: globalPfp, gunTier: 'LT5', swordTier: 'LT5' },
-  { name: 'Budhas', robloxId: '88', robloxProfile: 'https://www.roblox.com', team2v2: 'Budhas', crewName: 'Sengoku Crew', crowns: false, region: 'sa', customAvatar: globalPfp, gunTier: 'LT5', swordTier: 'LT5' },
-  { name: 'Jugador_Prueba_89', robloxId: '89', robloxProfile: 'https://www.roblox.com', team2v2: 'Gunslingers', crewName: 'Zoro Arc', crowns: false, region: 'eu', customAvatar: globalPfp, gunTier: 'LT5', swordTier: 'LT5' },
-  { name: 'Jugador_Prueba_90', robloxId: '90', robloxProfile: 'https://www.roblox.com', team2v2: 'Gunslingers', crewName: 'Zoro Arc', crowns: false, region: 'na', customAvatar: globalPfp, gunTier: 'LT5', swordTier: 'LT5' },
-  { name: 'Jugador_Prueba_91', robloxId: '91', robloxProfile: 'https://www.roblox.com', team2v2: 'Swordsmen', crewName: 'Mihawk Dojo', crowns: false, region: 'sa', customAvatar: globalPfp, gunTier: 'LT5', swordTier: 'LT5' },
-  { name: 'Jugador_Prueba_92', robloxId: '92', robloxProfile: 'https://www.roblox.com', team2v2: 'Swordsmen', crewName: 'Mihawk Dojo', crowns: false, region: 'eu', customAvatar: globalPfp, gunTier: 'LT5', swordTier: 'LT5' },
-  { name: 'Jugador_Prueba_93', robloxId: '93', robloxProfile: 'https://www.roblox.com', team2v2: 'Snipers', crewName: 'Usopp Fact', crowns: false, region: 'na', customAvatar: globalPfp, gunTier: 'LT5', swordTier: 'LT5' },
-  { name: 'Jugador_Prueba_94', robloxId: '94', robloxProfile: 'https://www.roblox.com', team2v2: 'Snipers', crewName: 'Usopp Fact', crowns: false, region: 'sa', customAvatar: globalPfp, gunTier: 'LT5', swordTier: 'LT5' },
-  { name: 'Jugador_Prueba_95', robloxId: '95', robloxProfile: 'https://www.roblox.com', team2v2: 'Brawlers', crewName: 'Garp Fist', crowns: false, region: 'eu', customAvatar: globalPfp, gunTier: 'LT5', swordTier: 'LT5' },
-  { name: 'Jugador_Prueba_96', robloxId: '96', robloxProfile: 'https://www.roblox.com', team2v2: 'Brawlers', crewName: 'Garp Fist', crowns: false, region: 'na', customAvatar: globalPfp, gunTier: 'LT5', swordTier: 'LT5' },
-  { name: 'Jugador_Prueba_97', robloxId: '97', robloxProfile: 'https://www.roblox.com', team2v2: 'Executioners', crewName: 'Impel Down', crowns: false, region: 'sa', customAvatar: globalPfp, gunTier: 'LT5', swordTier: 'LT5' },
-  { name: 'Jugador_Prueba_98', robloxId: '98', robloxProfile: 'https://www.roblox.com', team2v2: 'Executioners', crewName: 'Impel Down', crowns: false, region: 'eu', customAvatar: globalPfp, gunTier: 'LT5', swordTier: 'LT5' },
-  { name: 'Jugador_Prueba_99', robloxId: '99', robloxProfile: 'https://www.roblox.com', team2v2: 'Legends', crewName: 'Roger Era', crowns: false, region: 'na', customAvatar: globalPfp, gunTier: 'LT5', swordTier: 'LT5' },
-  { name: 'Jugador_Prueba_100', robloxId: '100', robloxProfile: 'https://www.roblox.com', team2v2: 'Legends', crewName: 'Roger Era', crowns: false, region: 'sa', customAvatar: globalPfp, gunTier: 'LT5', swordTier: 'LT5' }
+  { name: 'cris', robloxProfile: 'https://www.roblox.com/es/users/5448312155/profile', crowns: true, region: 'na', customAvatar: globalPfp, gunTier: 'HT1', swordTier: 'HT1' },
+  { name: 'Jugador_Prueba_2', robloxProfile: 'https://www.roblox.com', crowns: true, region: 'eu', customAvatar: globalPfp, gunTier: 'HT1', swordTier: 'LT1' },
+  { name: 'Jugador_Prueba_3', robloxProfile: 'https://www.roblox.com', crowns: false, region: 'na', customAvatar: globalPfp, gunTier: 'HT1', swordTier: 'LT1' },
+  { name: 'Jugador_Prueba_4', robloxProfile: 'https://www.roblox.com', crowns: false, region: 'sa', customAvatar: globalPfp, gunTier: 'LT1', swordTier: 'LT1' },
+  { name: 'Jugador_Prueba_5', robloxProfile: 'https://www.roblox.com', crowns: false, region: 'eu', customAvatar: globalPfp, gunTier: 'HT1', swordTier: 'HT2' },
+  { name: 'Jugador_Prueba_6', robloxProfile: 'https://www.roblox.com', crowns: false, region: 'na', customAvatar: globalPfp, gunTier: 'LT1', swordTier: 'HT2' },
+  { name: 'Jugador_Prueba_7', robloxProfile: 'https://www.roblox.com', crowns: false, region: 'sa', customAvatar: globalPfp, gunTier: 'LT1', swordTier: 'LT2' },
+  { name: 'Jugador_Prueba_8', robloxProfile: 'https://www.roblox.com', crowns: false, region: 'eu', customAvatar: globalPfp, gunTier: 'HT2', swordTier: 'HT2' },
+  { name: 'Jugador_Prueba_9', robloxProfile: 'https://www.roblox.com', crowns: false, region: 'na', customAvatar: globalPfp, gunTier: 'HT2', swordTier: 'LT2' },
+  { name: 'Jugador_Prueba_10', robloxProfile: 'https://www.roblox.com', crowns: false, region: 'sa', customAvatar: globalPfp, gunTier: 'LT2', swordTier: 'LT2' }
+  // Puedes añadir manualmente hasta el 100 de la misma manera...
 ];
+
+// 2. LISTA EXCLUSIVA DE 2V2 (TEAMS) - ¡Edita aquí sus puntos directos y su Tier visual!
+const database2v2 = [
+  { name: 'Team Nexus', points: 350, tier: 'HT1', region: 'na', avatar: 'https://i.postimg.cc/W3mvzFKH/imagen-2026-07-07-142514907.png' , crowns: true, description: 'Dominante en torneos regionales' },
+  { name: 'Alpha Squad', points: 290, tier: 'LT1', region: 'eu', avatar: 'https://i.postimg.cc/W3mvzFKH/imagen-2026-07-07-142514907.png' , crowns: false, description: 'Estrategas tácticos de 2v2' },
+  { name: 'Delta Duos', points: 210, tier: 'HT2', region: 'sa', avatar: 'https://i.postimg.cc/W3mvzFKH/imagen-2026-07-07-142514907.png' , crowns: false, description: 'Poder puro en sincronización' },
+  { name: 'Infinity Crew', points: 180, tier: 'LT2', region: 'na', avatar: 'https://i.postimg.cc/W3mvzFKH/imagen-2026-07-07-142514907.png' , crowns: false, description: 'Defensas impenetrables' },
+  { name: 'Solids Team', points: 120, tier: 'HT3', region: 'eu', avatar: 'https://i.postimg.cc/W3mvzFKH/imagen-2026-07-07-142514907.png' , crowns: false, description: 'Rápidos contraataques' }
+];
+
+// 3. LISTA EXCLUSIVA DE CREWS - ¡Edita aquí sus puntos directos y su Tier visual!
+const databaseCrew = [
+  { name: 'Vanguard Legends', points: 1200, tier: 'HT1', region: 'na', avatar: 'https://i.postimg.cc/W3mvzFKH/imagen-2026-07-07-142514907.png' , crowns: true, description: 'La tripulación más temida del servidor' },
+  { name: 'Shadow Clan', points: 950, tier: 'LT1', region: 'sa', avatar: 'https://i.postimg.cc/W3mvzFKH/imagen-2026-07-07-142514907.png' , crowns: false, description: 'Asesinos silenciosos en alta mar' },
+  { name: 'Crimson Order', points: 720, tier: 'HT2', region: 'eu', avatar: 'https://i.postimg.cc/W3mvzFKH/imagen-2026-07-07-142514907.png' , crowns: false, description: 'Guerreros de sangre fría' },
+  { name: 'Mythic Union', points: 510, tier: 'LT2', region: 'na', avatar: 'https://i.postimg.cc/W3mvzFKH/imagen-2026-07-07-142514907.png' , crowns: false, description: 'Hermandad competitiva enfocada a PvP' },
+  { name: 'Iron Syndicate', points: 340, tier: 'HT3', region: 'eu', avatar: 'https://i.postimg.cc/W3mvzFKH/imagen-2026-07-07-142514907.png' , crowns: false, description: 'Defensores de fortalezas' }
+];
+
 /* ========================================================================== */
 
+// Procesamiento automático de Jugadores
 const playersDatabase = [];
-
 manualPlayers.forEach((p) => {
   let gNum = parseInt(p.gunTier.replace(/\D/g, '')) || 5;
   let sNum = parseInt(p.swordTier.replace(/\D/g, '')) || 5;
@@ -544,17 +479,17 @@ manualPlayers.forEach((p) => {
   let sType = p.swordTier.includes('HT') ? 'border-ht' : 'border-lt';
 
   playersDatabase.push({
+    type: 'player',
     rank: 0,
     name: p.name,
-    robloxId: p.robloxId,
     robloxProfile: p.robloxProfile,
-    team2v2: p.team2v2,
-    crewName: p.crewName,
     crowns: p.crowns,
     region: p.region,
     customAvatar: p.customAvatar,
     gunTier: { t: p.gunTier, c: 't-' + p.gunTier.toLowerCase(), num: gNum, type: gType },
     swordTier: { t: p.swordTier, c: 't-' + p.swordTier.toLowerCase(), num: sNum, type: sType },
+    calculatedPoints: calculateTotalPoints(p.gunTier, p.swordTier),
+    title: getTitleByPoints(calculateTotalPoints(p.gunTier, p.swordTier)),
     items: [
       { img: imgAcidum, badge: p.gunTier, class: 't-' + p.gunTier.toLowerCase() },
       { img: imgDarkBlade, badge: p.swordTier, class: 't-' + p.swordTier.toLowerCase() }
@@ -562,144 +497,194 @@ manualPlayers.forEach((p) => {
   });
 });
 
-// Inicializar dinámicamente puntos y títulos basados en la lógica matemática exacta
-playersDatabase.forEach(player => {
-  player.calculatedPoints = calculateTotalPoints(player.gunTier.t, player.swordTier.t);
-  player.title = getTitleByPoints(player.calculatedPoints);
-});
-
-// Ordenar base de datos de mayor a menor puntuación para consistencia competitiva global
+// Ordenar jugadores por puntos
 playersDatabase.sort((a, b) => b.calculatedPoints - a.calculatedPoints);
-playersDatabase.forEach((player, index) => {
-  player.rank = index + 1;
-});
+playersDatabase.forEach((player, index) => player.rank = index + 1);
+
+// Ordenar bases de datos manuales de 2v2 y Crew por puntos asignados directamente
+database2v2.sort((a, b) => b.points - a.points);
+database2v2.forEach((team, index) => team.rank = index + 1);
+
+databaseCrew.sort((a, b) => b.points - a.points);
+databaseCrew.forEach((crew, index) => crew.rank = index + 1);
+
 
 function renderRankings(category) {
-const overallContainer = document.getElementById('overall-view-container');
-const categoryContainer = document.getElementById('category-view-container');
-const headerName = document.getElementById('table-header-name');
-
-if (category === 'overall' || category === '2v2' || category === 'crew') {
-categoryContainer.style.display = 'none';
-overallContainer.style.display = 'block';
-headerName.innerText = category === '2v2' ? "Team (Duos)" : category === 'crew' ? "Crew Name" : "Username";
-
-const tbody = document.getElementById('ranking-tbody');
-tbody.innerHTML = '';
-
-playersDatabase.forEach(player => {
-let rankClass = player.rank === 1 ? 'rank-1' : player.rank === 2 ? 'rank-2' : player.rank === 3 ? 'rank-3' : 'rank-other';
-let itemsHTML = player.items.map(item => `
-<div class="tier-wrapper">
-<img src="${item.img}" class="item-image">
-<span class="tier-badge ${item.class}">${item.badge}</span>
-</div>
-`).join('');
-
-let displayName = category === '2v2' ? player.team2v2 : category === 'crew' ? player.crewName : player.name;
-let crownHTML = player.crowns ? `<span class="crown-icon" style="color:var(--gold); font-size:0.8rem;"><i class="fa-solid fa-crown"></i></span>` : '';
-
-const row = document.createElement('tr');
-row.addEventListener('click', () => openPlayerModal(player));
-
-row.innerHTML = `
-<td class="col-rank"><span class="rank-num ${rankClass}">${player.rank}.</span></td>
-<td>
-<div class="player-info">
-<img src="${player.customAvatar}" class="avatar">
-<div class="player-details">
-<div class="name">${displayName} ${crownHTML}</div>
-<div class="player-sub">${player.title} • ${player.calculatedPoints} points</div>
-</div>
-</div>
-</td>
-<td style="text-align:center;"><span class="region-badge ${player.region}">${player.region.toUpperCase()}</span></td>
-<td><div class="tier-badges-container">${itemsHTML}</div></td>
-`;
-tbody.appendChild(row);
-});
-} else {
-overallContainer.style.display = 'none';
-categoryContainer.style.display = 'grid';
-
-for (let i = 1; i <= 5; i++) document.getElementById(`tier-list-${i}`).innerHTML = '';
-
-// Clonamos el array original para ordenarlo independientemente según la categoría (Gun o Sword)
-const sortedForCategory = [...playersDatabase].sort((a, b) => {
-  const tierA = category === 'gun' ? a.gunTier : a.swordTier;
-  const tierB = category === 'gun' ? b.gunTier : b.swordTier;
+  const overallContainer = document.getElementById('overall-view-container');
+  const categoryContainer = document.getElementById('category-view-container');
+  const headerName = document.getElementById('table-header-name');
+  const headerTier = document.getElementById('table-header-tier');
+  const tbody = document.getElementById('ranking-tbody');
   
-  const valA = pointsMap[tierA.t] || 0;
-  const valB = pointsMap[tierB.t] || 0;
-  
-  return valB - valA; // Ordena de High Tier 1 hacia abajo
-});
+  tbody.innerHTML = '';
 
-sortedForCategory.forEach(player => {
-let targetTier = category === 'gun' ? player.gunTier : player.swordTier;
-if (targetTier && targetTier.num > 0) {
-const card = document.createElement('div');
-card.className = `tier-player-card ${targetTier.type}`;
+  if (category === 'overall') {
+    categoryContainer.style.display = 'none';
+    overallContainer.style.display = 'block';
+    headerName.innerText = "Username";
+    headerTier.innerText = "Assigned Tiers";
 
-card.addEventListener('click', () => openPlayerModal(player));
+    playersDatabase.forEach(player => {
+      let rankClass = player.rank === 1 ? 'rank-1' : player.rank === 2 ? 'rank-2' : player.rank === 3 ? 'rank-3' : 'rank-other';
+      let itemsHTML = player.items.map(item => `
+        <div class="tier-wrapper">
+          <img src="${item.img}" class="item-image">
+          <span class="tier-badge ${item.class}">${item.badge}</span>
+        </div>
+      `).join('');
+      let crownHTML = player.crowns ? `<span class="crown-icon" style="color:var(--gold); font-size:0.8rem;"><i class="fa-solid fa-crown"></i></span>` : '';
 
-card.innerHTML = `
-<img src="${player.customAvatar}" class="tier-card-avatar">
-<div class="tier-card-name">
-${player.name}
-<span class="${targetTier.c}" style="font-size:0.75rem; padding:2px 6px; border-radius:4px; font-weight:700;">${targetTier.t}</span>
-</div>
-<i class="fa-solid fa-chevron-right tier-card-arrow"></i>
-`;
-document.getElementById(`tier-list-${targetTier.num}`).appendChild(card);
+      const row = document.createElement('tr');
+      row.addEventListener('click', () => openPlayerModal(player));
+      row.innerHTML = `
+        <td class="col-rank"><span class="rank-num ${rankClass}">${player.rank}.</span></td>
+        <td>
+          <div class="player-info">
+            <img src="${player.customAvatar}" class="avatar">
+            <div class="player-details">
+              <div class="name">${player.name} ${crownHTML}</div>
+              <div class="player-sub">${player.title} • ${player.calculatedPoints} points</div>
+            </div>
+          </div>
+        </td>
+        <td style="text-align:center;"><span class="region-badge ${player.region}">${player.region.toUpperCase()}</span></td>
+        <td><div class="tier-badges-container">${itemsHTML}</div></td>
+      `;
+      tbody.appendChild(row);
+    });
+
+  } else if (category === '2v2' || category === 'crew') {
+    categoryContainer.style.display = 'none';
+    overallContainer.style.display = 'block';
+    headerName.innerText = category === '2v2' ? "Team (Duos)" : "Crew Name";
+    headerTier.innerText = "Competitive Tier";
+
+    const activeDatabase = category === '2v2' ? database2v2 : databaseCrew;
+
+    activeDatabase.forEach(item => {
+      let rankClass = item.rank === 1 ? 'rank-1' : item.rank === 2 ? 'rank-2' : item.rank === 3 ? 'rank-3' : 'rank-other';
+      let crownHTML = item.crowns ? `<span class="crown-icon" style="color:var(--gold); font-size:0.8rem;"><i class="fa-solid fa-crown"></i></span>` : '';
+      let tierColorClass = 't-' + item.tier.toLowerCase();
+
+      const row = document.createElement('tr');
+      row.addEventListener('click', () => openGenericModal(item, category));
+      row.innerHTML = `
+        <td class="col-rank"><span class="rank-num ${rankClass}">${item.rank}.</span></td>
+        <td>
+          <div class="player-info">
+            <img src="${item.avatar}" class="avatar">
+            <div class="player-details">
+              <div class="name">${item.name} ${crownHTML}</div>
+              <div class="player-sub">${item.points} Competitive Points</div>
+            </div>
+          </div>
+        </td>
+        <td style="text-align:center;"><span class="region-badge ${item.region}">${item.region.toUpperCase()}</span></td>
+        <td>
+          <div class="tier-badges-container">
+            <div class="tier-wrapper">
+              <span class="tier-badge ${tierColorClass}" style="padding: 0.2rem 0.6rem; font-size:0.8rem;">${item.tier}</span>
+            </div>
+          </div>
+        </td>
+      `;
+      tbody.appendChild(row);
+    });
+
+  } else {
+    // Vistas por Columnas de Tiers independientes (Gun / Sword)
+    overallContainer.style.display = 'none';
+    categoryContainer.style.display = 'grid';
+
+    for (let i = 1; i <= 5; i++) document.getElementById(`tier-list-${i}`).innerHTML = '';
+
+    const sortedForCategory = [...playersDatabase].sort((a, b) => {
+      const tierA = category === 'gun' ? a.gunTier : a.swordTier;
+      const tierB = category === 'gun' ? b.gunTier : b.swordTier;
+      return (pointsMap[tierB.t] || 0) - (pointsMap[tierA.t] || 0);
+    });
+
+    sortedForCategory.forEach(player => {
+      let targetTier = category === 'gun' ? player.gunTier : player.swordTier;
+      if (targetTier && targetTier.num > 0) {
+        const card = document.createElement('div');
+        card.className = `tier-player-card ${targetTier.type}`;
+        card.addEventListener('click', () => openPlayerModal(player));
+        card.innerHTML = `
+          <img src="${player.customAvatar}" class="tier-card-avatar">
+          <div class="tier-card-name">
+            ${player.name}
+            <span class="${targetTier.c}" style="font-size:0.75rem; padding:2px 6px; border-radius:4px; font-weight:700;">${targetTier.t}</span>
+          </div>
+          <i class="fa-solid fa-chevron-right tier-card-arrow"></i>
+        `;
+        document.getElementById(`tier-list-${targetTier.num}`).appendChild(card);
+      }
+    });
+  }
 }
-});
-}
-}
 
+// Abrir modal estructurado para Jugadores (Individual)
 function openPlayerModal(player) {
-document.getElementById('m-avatar').src = player.customAvatar;
-document.getElementById('m-name').innerText = player.name;
-document.getElementById('m-title').innerHTML = `<i class="fa-solid fa-bolt"></i> ${player.title}`;
-document.getElementById('m-region').innerText = `Region: ${player.region.toUpperCase()}`;
-document.getElementById('m-pos-num').innerText = `${player.rank}.`;
-document.getElementById('m-pos-points').innerText = `(${player.calculatedPoints} points)`;
+  document.getElementById('m-avatar').src = player.customAvatar;
+  document.getElementById('m-name').innerText = player.name;
+  document.getElementById('m-title').innerHTML = `<i class="fa-solid fa-bolt"></i> ${player.title}`;
+  document.getElementById('m-region').innerText = `Region: ${player.region.toUpperCase()}`;
+  document.getElementById('m-pos-num').innerText = `${player.rank}.`;
+  document.getElementById('m-pos-points').innerText = `(${player.calculatedPoints} points)`;
 
-document.getElementById('m-tiers-grid').innerHTML = `
-<div class="modal-tier-item">
-<div class="modal-tier-icon"><img src="${imgAcidum}"></div>
-<div class="modal-tier-label ${player.gunTier.c}">${player.gunTier.t}</div>
-</div>
-<div class="modal-tier-item">
-<div class="modal-tier-icon"><img src="${imgDarkBlade}"></div>
-<div class="modal-tier-label ${player.swordTier.c}">${player.swordTier.t}</div>
-</div>
-`;
+  document.getElementById('m-tiers-grid').innerHTML = `
+    <div class="modal-tier-item">
+      <div class="modal-tier-icon"><img src="${imgAcidum}"></div>
+      <div class="modal-tier-label ${player.gunTier.c}">${player.gunTier.t}</div>
+    </div>
+    <div class="modal-tier-item">
+      <div class="modal-tier-icon"><img src="${imgDarkBlade}"></div>
+      <div class="modal-tier-label ${player.swordTier.c}">${player.swordTier.t}</div>
+    </div>
+  `;
 
-const socialsBox = document.getElementById('m-socials-box');
-const robloxBtn = document.getElementById('m-roblox-link');
+  const socialsBox = document.getElementById('m-socials-box');
+  if (player.robloxProfile) {
+    socialsBox.style.display = 'block';
+    const robloxBtn = document.getElementById('m-roblox-link');
+    const newRobloxBtn = robloxBtn.cloneNode(true);
+    robloxBtn.parentNode.replaceChild(newRobloxBtn, robloxBtn);
+    newRobloxBtn.addEventListener('click', () => window.open(player.robloxProfile, '_blank'));
+  } else {
+    socialsBox.style.display = 'none';
+  }
 
-if (player.robloxProfile) {
-socialsBox.style.display = 'block';
-const newRobloxBtn = robloxBtn.cloneNode(true);
-robloxBtn.parentNode.replaceChild(newRobloxBtn, robloxBtn);
-
-newRobloxBtn.addEventListener('click', () => {
-window.open(player.robloxProfile, '_blank');
-});
-} else {
-socialsBox.style.display = 'none';
+  document.getElementById('profile-modal-overlay').style.display = 'flex';
 }
 
-document.getElementById('profile-modal-overlay').style.display = 'flex';
+// Abrir modal para Crews y Equipos 2v2 (Muestra su descripción y rango específico)
+function openGenericModal(item, mode) {
+  document.getElementById('m-avatar').src = item.avatar;
+  document.getElementById('m-name').innerText = item.name;
+  document.getElementById('m-title').innerHTML = `<i class="fa-solid fa-users"></i> Tier Oficial: ${item.tier}`;
+  document.getElementById('m-region').innerText = `Region: ${item.region.toUpperCase()}`;
+  document.getElementById('m-pos-num').innerText = `${item.rank}.`;
+  document.getElementById('m-pos-points').innerText = `(${item.points} points)`;
+
+  document.getElementById('m-tiers-grid').innerHTML = `
+    <div style="text-align: center; color: var(--text-secondary); font-size: 0.9rem; padding: 0.5rem; width: 100%;">
+      <p style="font-style: italic; color:#fff;">"${item.description || 'No description provided.'}"</p>
+      <span class="region-badge ${item.region}" style="margin-top:10px;">PRO CLASSIFICATION</span>
+    </div>
+  `;
+
+  document.getElementById('m-socials-box').style.display = 'none';
+  document.getElementById('profile-modal-overlay').style.display = 'flex';
 }
 
+// Eventos de Navegación de Categorías
 document.querySelectorAll('.tab-btn').forEach(btn => {
-btn.addEventListener('click', function() {
-document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-this.classList.add('active');
-renderRankings(this.dataset.category);
-});
+  btn.addEventListener('click', function() {
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    this.classList.add('active');
+    renderRankings(this.dataset.category);
+  });
 });
 
 document.getElementById('open-info-btn').addEventListener('click', () => document.getElementById('info-modal-overlay').style.display = 'flex');
@@ -707,27 +692,29 @@ document.getElementById('close-info-modal').addEventListener('click', () => docu
 document.getElementById('close-modal').addEventListener('click', () => document.getElementById('profile-modal-overlay').style.display = 'none');
 
 document.getElementById('tab-titles-btn').addEventListener('click', function() {
-this.classList.add('active'); document.getElementById('tab-points-btn').classList.remove('active');
-document.getElementById('info-titles-pane').style.display = 'block'; document.getElementById('info-points-pane').style.display = 'none';
+  this.classList.add('active'); document.getElementById('tab-points-btn').classList.remove('active');
+  document.getElementById('info-titles-pane').style.display = 'block'; document.getElementById('info-points-pane').style.display = 'none';
 });
 
 document.getElementById('tab-points-btn').addEventListener('click', function() {
-this.classList.add('active'); document.getElementById('tab-titles-btn').classList.remove('active');
-document.getElementById('info-titles-pane').style.display = 'none'; document.getElementById('info-points-pane').style.display = 'block';
+  this.classList.add('active'); document.getElementById('tab-titles-btn').classList.remove('active');
+  document.getElementById('info-titles-pane').style.display = 'none'; document.getElementById('info-points-pane').style.display = 'block';
 });
 
 window.addEventListener('click', (e) => {
-if (e.target.classList.contains('modal-overlay')) e.target.style.display = 'none';
+  if (e.target.classList.contains('modal-overlay')) e.target.style.display = 'none';
 });
 
+// Buscador Inteligente Dinámico (Funciona para jugadores, crews y teams)
 document.getElementById('player-search').addEventListener('input', function() {
-const query = this.value.toLowerCase();
-document.querySelectorAll('#ranking-tbody tr').forEach(row => {
-const nameText = row.querySelector('.name').innerText.toLowerCase();
-row.style.display = nameText.includes(query) ? '' : 'none';
-});
+  const query = this.value.toLowerCase();
+  document.querySelectorAll('#ranking-tbody tr').forEach(row => {
+    const nameText = row.querySelector('.name').innerText.toLowerCase();
+    row.style.display = nameText.includes(query) ? '' : 'none';
+  });
 });
 
+// Renderizar tabla inicial
 renderRankings('overall');
 </script>
 </body>
