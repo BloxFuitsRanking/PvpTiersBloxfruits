@@ -359,7 +359,7 @@ main { max-width: 1200px; margin: 3rem auto; padding: 0 2rem; }
     <span class="elo-stat-value win">+5 Elo</span>
   </div>
   <div class="elo-stat-row">
-    <span class="elo-stat-label"><i class="fa-solid fa-circle-minus"></i> War Lost:</span>
+    <span class="elo-stat-label"><i class="fa-solid fa-circle-minus"></i> Wars Lost:</span>
     <span class="elo-stat-value loss">-10 Elo</span>
   </div>
 </div>
@@ -373,7 +373,7 @@ main { max-width: 1200px; margin: 3rem auto; padding: 0 2rem; }
     <span class="elo-stat-value win">+5 Elo</span>
   </div>
   <div class="elo-stat-row">
-    <span class="elo-stat-label"><i class="fa-solid fa-circle-minus"></i> War Lost:</span>
+    <span class="elo-stat-label"><i class="fa-solid fa-circle-minus"></i> Wars Lost:</span>
     <span class="elo-stat-value loss">-10 Elo</span>
   </div>
 </div>
@@ -469,33 +469,36 @@ function getTitleByPoints(points) {
    ========================================================================== */
 
 const manualPlayers = [
-  { name: 'RANDOM', robloxProfile: 'https://www.roblox.com/es/users/5448312155/profile', crowns: true, region: 'na', customAvatar: globalPfp, gunPoints: 60, swordPoints: 90, gunTier: 'HT3', swordTier: 'LT1' },
-  { name: 'Jugador_Prueba_2', robloxProfile: 'https://www.roblox.com', crowns: true, region: 'eu', customAvatar: globalPfp, gunPoints: 100, swordPoints: 90, gunTier: 'HT1', swordTier: 'LT1' },
-  { name: 'Jugador_Prueba_3', robloxProfile: 'https://www.roblox.com', crowns: false, region: 'na', customAvatar: globalPfp, gunPoints: 100, swordPoints: 50, gunTier: 'HT1', swordTier: 'LT3' },
-  { name: 'Jugador_Prueba_4', robloxProfile: 'https://www.roblox.com', crowns: false, region: 'sa', customAvatar: globalPfp, gunPoints: 90, swordPoints: 90, gunTier: 'LT1', swordTier: 'LT1' },
-  { name: 'Jugador_Prueba_5', robloxProfile: 'https://www.roblox.com', crowns: false, region: 'eu', customAvatar: globalPfp, gunPoints: 100, swordPoints: 80, gunTier: 'HT1', swordTier: 'HT2' },
-  { name: 'Jugador_Prueba_6', robloxProfile: 'https://www.roblox.com', crowns: false, region: 'na', customAvatar: globalPfp, gunPoints: 90, swordPoints: 80, gunTier: 'LT1', strokeTier: 'HT2', gunTier: 'LT1', swordTier: 'HT2' },
-  { name: 'Jugador_Prueba_7', robloxProfile: 'https://www.roblox.com', crowns: false, region: 'sa', customAvatar: globalPfp, gunPoints: 90, swordPoints: 70, gunTier: 'LT1', swordTier: 'LT2' },
-  { name: 'Jugador_Prueba_8', robloxProfile: 'https://www.roblox.com', crowns: false, region: 'eu', customAvatar: globalPfp, gunPoints: 80, swordPoints: 80, gunTier: 'HT2', swordTier: 'HT2' },
-  { name: 'Jugador_Prueba_9', robloxProfile: 'https://www.roblox.com', crowns: false, region: 'na', customAvatar: globalPfp, gunPoints: 80, swordPoints: 70, gunTier: 'HT2', swordTier: 'LT2' },
-  { name: 'Jugador_Prueba_10', robloxProfile: 'https://www.roblox.com', crowns: false, region: 'sa', customAvatar: globalPfp, gunPoints: 70, swordPoints: 70, gunTier: 'LT2', swordTier: 'LT2' },
-  { name: 'Jugador_Prueba_11', robloxProfile: 'https://www.roblox.com', crowns: false, region: 'sa', customAvatar: globalPfp, gunPoints: 70, swordPoints: 90, gunTier: 'LT2', swordTier: 'LT1' }
+  { name: '  PLAYER1  ', robloxProfile: 'https://www.roblox.com/es/users/5448312155/profile', crowns: false, region: 'na', customAvatar: 'https://i.postimg.cc/dQ4RhGYN/imagen-2026-07-09-203311741.png', gunPoints: 100, swordPoints: 10, gunTier: 'HT1', swordTier: 'LT5' },
+  { name: '  PLAYER2  ', robloxProfile: 'https://www.roblox.com', crowns: true, region: 'eu', customAvatar: globalPfp, gunPoints: 90, swordPoints: 90, gunTier: 'LT1', swordTier: 'LT1' },
+  { name: '  PLAYER3  ', robloxProfile: 'https://www.roblox.com', crowns: false, region: 'na', customAvatar: globalPfp, gunPoints: 90, swordPoints: 90, gunTier: 'LT1', swordTier: 'LT1' },
+  { name: '  PLAYER4  ', robloxProfile: 'https://www.roblox.com', crowns: false, region: 'sa', customAvatar: globalPfp, gunPoints: 90, swordPoints: 50, gunTier: 'LT1', swordTier: 'LT3' },
+  { name: '  PLAYER5  ', robloxProfile: 'https://www.roblox.com', crowns: false, region: 'eu', customAvatar: globalPfp, gunPoints: 70, swordPoints: 90, gunTier: 'LT2', swordTier: 'LT1' },
+  { name: '  PLAYER6  ', robloxProfile: 'https://www.roblox.com', crowns: false, region: 'na', customAvatar: globalPfp, gunPoints: 90, swordPoints: 80, gunTier: 'LT1', strokeTier: 'HT2', gunTier: 'LT1', swordTier: 'HT2' },
+  { name: '  PLAYER7  ', robloxProfile: 'https://www.roblox.com', crowns: false, region: 'sa', customAvatar: globalPfp, gunPoints: 50, swordPoints: 10, gunTier: 'LT3', swordTier: 'LT5' },
+  { name: '  PLAYER8  ', robloxProfile: 'https://www.roblox.com', crowns: false, region: 'eu', customAvatar: globalPfp, gunPoints: 70, swordPoints: 60, gunTier: 'LT2', swordTier: 'HT3' },
+  { name: '  PLAYER9  ', robloxProfile: 'https://www.roblox.com', crowns: false, region: 'na', customAvatar: globalPfp, gunPoints: 60, swordPoints: 70, gunTier: 'HT3', swordTier: 'LT2' },
+  { name: '  PLAYER10  ', robloxProfile: 'https://www.roblox.com', crowns: false, region: 'sa', customAvatar: globalPfp, gunPoints: 70, swordPoints: 80, gunTier: 'LT2', swordTier: 'HT2' },
+  { name: '  PLAYER11  ', robloxProfile: 'https://www.roblox.com', crowns: false, region: 'sa', customAvatar: globalPfp, gunPoints: 20, swordPoints: 10, gunTier: 'HT5', swordTier: 'LT5' }
+, { name: '    PLAYER12    ', robloxProfile: 'https://www.roblox.com', crowns: false, region: 'sa', customAvatar: globalPfp, gunPoints: 30, swordPoints: 20, gunTier: 'LT4', strokeTier: 'HT5', gunTier: 'LT4', swordTier: 'HT5' }
 ];
 
+/* 🛠️ MODIFICA AQUÍ LAS WARS GANADAS PARA 2V2 (Modifica el valor de warsWon) */
 const database2v2 = [
-  { name: 'Team Nexus', points: 350, tier: 'HT1', region: 'na', avatar: globalPfp, crowns: true, description: 'Dominante en torneos regionales' },
-  { name: 'Alpha Squad', points: 290, tier: 'LT1', region: 'eu', avatar: globalPfp, crowns: false, description: 'Estrategas tácticos de 2v2' },
-  { name: 'Delta Duos', points: 210, tier: 'HT2', region: 'sa', avatar: globalPfp, crowns: false, description: 'Poder puro en sincronización' },
-  { name: 'Infinity Crew', points: 180, tier: 'LT2', region: 'na', avatar: globalPfp, crowns: false, description: 'Defensas impenetrables' },
-  { name: 'Solids Team', points: 120, tier: 'HT3', region: 'eu', avatar: globalPfp, crowns: false, description: 'Rápidos contraataques' }
+  { name: 'NEXUS', points: 350, tier: 'HT1', region: 'na', avatar: globalPfp, crowns: true, warsWon: 14, warsLost: 2, description: 'Dominante en torneos regionales' },
+  { name: 'Alpha Squad', points: 290, tier: 'LT1', region: 'eu', avatar: globalPfp, crowns: false, warsWon: 9, warsLost: 4, description: 'Estrategas tácticos de 2v2' },
+  { name: 'Delta Duos', points: 210, tier: 'HT2', region: 'sa', avatar: globalPfp, crowns: false, warsWon: 6, warsLost: 3, description: 'Poder puro en sincronización' },
+  { name: 'Infinity Crew', points: 180, tier: 'LT2', region: 'na', avatar: globalPfp, crowns: false, warsWon: 4, warsLost: 5, description: 'Defensas impenetrables' },
+  { name: 'Solids Team', points: 120, tier: 'HT3', region: 'eu', avatar: globalPfp, crowns: false, warsWon: 2, warsLost: 6, description: 'Rápidos contraataques' }
 ];
 
+/* 🛠️ MODIFICA AQUÍ LAS WARS GANADAS PARA CREWS (Modifica el valor de warsWon) */
 const databaseCrew = [
-  { name: 'Vanguard Legends', points: 1200, tier: 'HT1', region: 'na', avatar: globalPfp, crowns: true, description: 'La tripulación más temida del servidor' },
-  { name: 'Shadow Clan', points: 950, tier: 'LT1', region: 'sa', avatar: globalPfp, crowns: false, description: 'Asesinos silenciosos en alta mar' },
-  { name: 'Crimson Order', points: 720, tier: 'HT2', region: 'eu', avatar: globalPfp, crowns: false, description: 'Guerreros de sangre fría' },
-  { name: 'Mythic Union', points: 510, tier: 'LT2', region: 'na', avatar: globalPfp, crowns: false, description: 'Hermandad competitiva enfocada a PvP' },
-  { name: 'Iron Syndicate', points: 340, tier: 'HT3', region: 'eu', avatar: globalPfp, crowns: false, description: 'Defensores de fortalezas' }
+  { name: 'Vanguard Legends', points: 1200, tier: 'HT1', region: 'na', avatar: globalPfp, crowns: true, warsWon: 25, warsLost: 5, description: 'La tripulación más temida del servidor' },
+  { name: 'Shadow Clan', points: 950, tier: 'LT1', region: 'sa', avatar: globalPfp, crowns: false, warsWon: 18, warsLost: 8, description: 'Asesinos silenciosos en alta mar' },
+  { name: 'Crimson Order', points: 720, tier: 'HT2', region: 'eu', avatar: globalPfp, crowns: false, warsWon: 12, warsLost: 6, description: 'Guerreros de sangre fría' },
+  { name: 'Mythic Union', points: 510, tier: 'LT2', region: 'na', avatar: globalPfp, crowns: false, warsWon: 7, warsLost: 9, description: 'Hermandad competitiva enfocada a PvP' },
+  { name: 'Iron Syndicate', points: 340, tier: 'HT3', region: 'eu', avatar: globalPfp, crowns: false, warsWon: 3, warsLost: 10, description: 'Defensores de fortalezas' }
 ];
 
 /* ========================================================================== */
@@ -549,7 +552,7 @@ function processDatabases() {
   database2v2.sort((a, b) => b.points - a.points);
   database2v2.forEach((t, idx) => {
     t.computedRank = idx + 1;
-    t.subText = `<span class="highlight-points">${t.points}</span> Competitive Points`;
+    t.subText = `Wars Won: <span class="highlight-points">${t.warsWon || 0}</span> • Wars Lost: <span class="highlight-points">${t.warsLost || 0}</span> • Elo: <span class="highlight-points">${t.points}</span>`;
     t.breakdown = [{ text: t.tier, isTier: true, hasIcon: false, class: 't-' + t.tier.toLowerCase() }];
   });
 
@@ -557,7 +560,7 @@ function processDatabases() {
   databaseCrew.sort((a, b) => b.points - a.points);
   databaseCrew.forEach((c, idx) => {
     c.computedRank = idx + 1;
-    c.subText = `<span class="highlight-points">${c.points}</span> Crew Points`;
+    c.subText = `Wars Won: <span class="highlight-points">${c.warsWon || 0}</span> • Wars Lost: <span class="highlight-points">${c.warsLost || 0}</span> • Elo: <span class="highlight-points">${c.points}</span>`;
     c.breakdown = [{ text: c.tier, isTier: true, hasIcon: false, class: 't-' + c.tier.toLowerCase() }];
   });
 }
@@ -677,12 +680,29 @@ function openGenericModal(item, mode) {
   document.getElementById('m-title').innerHTML = `<i class="fa-solid fa-users"></i> Tier Oficial: ${item.tier}`;
   document.getElementById('m-region').innerText = `Region: ${item.region.toUpperCase()}`;
   document.getElementById('m-pos-num').innerText = `${item.computedRank}.`;
-  document.getElementById('m-pos-points').innerText = `(${item.points} points)`;
+  document.getElementById('m-pos-points').innerText = `(${item.points} Elo)`;
 
+  // Modificación del bloque interno del modal para mostrar las estadísticas limpias y detalladas
   document.getElementById('m-tiers-grid').innerHTML = `
-    <div style="text-align: center; color: var(--text-secondary); font-size: 0.9rem; padding: 0.5rem; width: 100%;">
-      <p style="font-style: italic; color:#fff;">"${item.description || 'No description provided.'}"</p>
-      <span class="region-badge ${item.region}" style="margin-top:10px;">PRO CLASSIFICATION</span>
+    <div style="width: 100%; text-align: left; background: rgba(0,0,0,0.2); padding: 1rem; border-radius: 12px; border: 1px solid rgba(255,255,255,0.03);">
+      <p style="font-style: italic; color: var(--text-secondary); text-align: center; margin-bottom: 1rem; font-size: 0.9rem;">
+        "${item.description || 'No description provided.'}"
+      </p>
+      
+      <div class="elo-stat-row" style="border-bottom: 1px solid rgba(255,255,255,0.03); padding-bottom: 0.5rem; margin-bottom: 0.5rem;">
+        <span class="elo-stat-label"><i class="fa-solid fa-chart-line" style="color: #fbbf24;"></i> Total ELO:</span>
+        <span class="elo-stat-value" style="color: #fbbf24;">${item.points} Elo</span>
+      </div>
+      
+      <div class="elo-stat-row" style="border-bottom: 1px solid rgba(255,255,255,0.03); padding-bottom: 0.5rem; margin-bottom: 0.5rem;">
+        <span class="elo-stat-label"><i class="fa-solid fa-circle-plus" style="color: #4ade80;"></i> Wars Won:</span>
+        <span class="elo-stat-value win">${item.warsWon || 0} Wins</span>
+      </div>
+      
+      <div class="elo-stat-row">
+        <span class="elo-stat-label"><i class="fa-solid fa-circle-minus" style="color: #f87171;"></i> Wars Lost:</span>
+        <span class="elo-stat-value loss">${item.warsLost || 0} Losses</span>
+      </div>
     </div>
   `;
 
